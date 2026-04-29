@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --primary-orange: #FFAD4C;
+    --primary-dark: #E37A00;
+    --primary-light: #FFF4E7;
+    --accent-black: #4B4B4B;
+    --success-green: #8EDB00; 
+    --danger-red: #db3e00;
+    --warning-orange: #FFAE00;
+    --text-black: #202020;
+    --bg-color: #FFFCF6;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+body{
+    background-color: var(--bg-color);
+    color: var(--text-black);
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+ul{
+    list-style: none;
+    padding: 0;
+}
+
+p, li{font-weight: 500;}
+
+/*sidebar*/
+aside{
+    width: 250px;
+    height: 100vh;
+    background-color: white;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+#logo{
+    color: var(--primary-orange);
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 30px;
+}
+
+aside li{
+    padding: 10px 0;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.link_animation::after{
+    content: '';
+    display: block;
+    width: 0;
+    height: 0.125rem;
+    background: var(--primary-dark);
+    transition: width .3s;
+}
+
+.link_animation:hover::after {width: 100%;}
+aside li.active{color: var(--primary-dark);}
+#sair:hover{color: var(--danger-red)}
+aside>section{margin-top: auto;}
+
+/*main*/
+main{
+    flex: 1;
+    padding: 40px;
+    height: 100vh; 
+    overflow-y: auto;
+}
+
+main>section{margin-bottom: 60px;}
+
+/*semestres*/
+#semestre-tabs{
+    width: 100%; 
+    overflow-x: auto;
+}
+
+#semestre-tabs ul, #semestre-tabs .tab,
+#semestre-tabs .num, #semestre-tabs div{
+    display: flex;
+    align-items: center;
+}
+
+#semestre-tabs ul{
+    gap: 20px;
+    padding-bottom: 15px;
+}
+
+li.tab{
+    gap: 50px;
+    padding: 10px 25px;
+    border: 1.5px solid var(--primary-orange);
+    border-radius: 10px;
+    background-color: white;
+    color: var(--primary-orange);
+    cursor: pointer;
+}
+
+.num{
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: var(--primary-orange);
+    color: white;
+    border-radius: 50%;
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+.tab:hover:not(.active){background: var(--primary-light);}
+
+.tab.active{
+    background-color: var(--primary-orange);
+    color: white;
+}
+
+.tab.active .num{
+    background-color: white;
+    color: var(--primary-orange);
+}
+
+/*misc*/
+.white-card{
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
