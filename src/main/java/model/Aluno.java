@@ -1,0 +1,28 @@
+package model;
+
+public class Aluno{
+    private int id;
+    private String nome;
+    private String email;
+    private String senha;
+    private String escolaridade;
+    private double cr;
+
+    public int getId(){return id;}
+    public void setId(int id){this.id = id;}
+
+    public String getNome(){return nome;}
+    public void setNome(String nome){this.nome = nome;}
+
+    public String getEmail(){return email;}
+    public void setEmail(String email){this.email = email;}
+
+    public String getSenha(){return senha;}
+    public void setSenha(String senha){this.senha = senha;}
+
+    public String getEscolaridade(){return escolaridade;}
+    public void setEscolaridade(String escolaridade){this.escolaridade = escolaridade;}
+
+    public double getCr(){return cr;}
+    public void setCr(double cr){this.cr = cr;}
+}
