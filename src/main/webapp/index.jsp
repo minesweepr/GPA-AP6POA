@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPA - Gestão de Produtividade Acadêmica</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/estiloGeral.css">
+    <link rel="stylesheet" href="css/estiloGeral.css">
 </head>
 <body>
 
@@ -35,7 +36,7 @@
             <li class="tab"><div><span class="num">2</span> 2025.2</div><i class="fa-solid fa-ellipsis-vertical"></i></li>
         </ul>
     </section>
-    
+
     <section>
         <h2>teste h2</h2>
         <h3>teste h3</h3>
