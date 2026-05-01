@@ -142,3 +142,27 @@ li.tab{
     text-align: center;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
+.visivel{display: flex;}
+
+/*botões*/
+.btn-basico{
+    background-color: var(--accent-black);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    gap: 8px;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn-basico:hover { opacity: 0.85; }
+
+.secundario{
+    background-color: white;
+    color: var(--accent-black);
+    border: 1px solid var(--accent-black);
+}
+
+.vermelho{background-color: var(--danger-red);}
