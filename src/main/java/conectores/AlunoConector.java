@@ -39,6 +39,7 @@ public class AlunoConector {
 
             if (rs.next()) {
                 Aluno alunoLogado = new Aluno();
+                alunoLogado.setId(rs.getInt("id_aluno"));
                 alunoLogado.setNome(rs.getString("nome"));
                 alunoLogado.setEmail(rs.getString("email"));
                 alunoLogado.setSenha(rs.getString("senha"));

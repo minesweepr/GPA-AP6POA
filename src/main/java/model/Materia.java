@@ -1,13 +1,13 @@
 package model;
 
 public class Materia{
-    private int idMtaeria;
+    private int idMateria;
     private String sigla;
     private String nome;
     private int creditos;;
 
-    public int getIdMtaeria(){return idMtaeria;}
-    public void setIdMtaeria(int idMtaeria){this.idMtaeria = idMtaeria;}
+    public int getIdMateria(){return idMateria;}
+    public void setIdMateria(int idMateria){this.idMateria = idMateria;}
 
     public String getSigla(){return sigla;}
     public void setSigla(String sigla){this.sigla = sigla;}

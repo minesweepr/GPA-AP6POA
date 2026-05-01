@@ -1,0 +1,31 @@
+/*tabela*/
+.tabela-notas{
+    background-color: white;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    border: 1px solid var(--primary-orange);
+    margin: 20px 0;
+}
+
+.tabela-notas th{
+    background-color: var(--primary-orange);
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 15px;
+    position: relative;
+}
+
+.tabela-notas td{
+    padding: 15px;
+    border: 1px solid var(--primary-orange);
+    font-size: 14px;
+}
+
+.tabela-notas th:last-child, .tabela-notas td:last-child{
+    width: 1%;
+    white-space: nowrap;
+    text-align: center;
+}
+.tabela-notas tr:nth-child(even){background-color: var(--primary-light);}

@@ -20,7 +20,7 @@ public class Notas{
     public double getAv2(){return av2;}
     public void setAv2(double av2){this.av2 = av2;}
 
-    public double getAv1f(){return avf;}
+    public double getAvf(){return avf;}
     public void setAvf(double avf){this.avf = avf;}
 
     public double getMf(){return mf;}
