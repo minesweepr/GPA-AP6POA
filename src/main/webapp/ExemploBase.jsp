@@ -34,8 +34,6 @@
     <title>GPA - Gestão de Produtividade Acadêmica</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/estiloGeral.css">
-    <link rel="stylesheet" href="css/estiloTabela.css">
-    <link rel="stylesheet" href="css/estiloIndex.css">
 </head>
 <body>
 
@@ -67,7 +65,8 @@
                     String classeAtiva=(s.getIdSemestre()==semestreAtivoId)?"active" : "";
             %>
                 <li class="tab <%= classeAtiva %>"
-                    onclick="window.location.href='index.jsp?semestreId=<%= s.getIdSemestre() %>'"
+                    // nao esquecer de mudar o SUAPAGINAAQUI
+                    onclick="window.location.href='SUAPAGINAAQUI.jsp?semestreId=<%= s.getIdSemestre() %>'"
                     style="cursor: pointer;">
                     <div>
                         <span class="num"><%= cont %></span>
@@ -83,47 +82,17 @@
     </section>
 
     <section>
-        <h2>Cálculos</h2>
-        <div class="stats-grid">
-            <div class="white-card">
-                <h3>Coeficiente de Rendimento</h3>
-                <div class="value" id="coeficiente-de-rendimento">8.6</div>
-            </div>
-            <div class="white-card">
-                <h3>Desempenho Semestral</h3>
-                <div class="value" id="desempenho-atual-aluno">9.3</div>
-            </div>
-            <div class="white-card">
-                <h3>Desempenho Atual</h3>
-                <div class="value success" id="status-desempenho-atual-aluno">Bom</div>
-            </div>
-        </div>
+        <h2>teste h2</h2>
+        <h3>teste h3</h3>
+        <p>teste p</p>
     </section>
 
     <section>
-        <h2>Médias por Disciplina</h2>
-        <div class="tabela-container">
-            <table class="tabela-notas">
-                <thead>
-                    <tr>
-                        <th colspan="4">Médias</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                    </tr>
-                </tbody>
-            </table>
+        <!--usar essa classe pra tudo com fundo branco e sombra-->
+        <div class="white-card">
+            <p>teste card</p>
+            <button class="btn-basico secundario">exemplo botao 1</button>
+            <button class="btn-basico">exemplo botao 2</button>
         </div>
     </section>
 </main>

@@ -154,7 +154,7 @@
                             <th>AV2</th>
                             <th>AVF</th>
                             <th>MF</th>
-                            <th>Excluir</th>
+                            <th class="info-last">Excluir</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -164,7 +164,7 @@
                             <td>input</td>
                             <td>input</td>
                             <td>automatico</td>
-                            <td><button id="deletar" class="btn-basico vermelho"><i class="fa-solid fa-trash"></i></button></td>
+                            <td class="info-last"><button id="deletar" class="btn-basico vermelho"><i class="fa-solid fa-trash"></i></button></td>
                         </tr>
                         <tr>
                             <td>Nome todo da disciplina</td>
@@ -172,7 +172,7 @@
                             <td>10,0</td>
                             <td>-</td>
                             <td>10,0</td>
-                            <td><button id="deletar" class="btn-basico vermelho"><i class="fa-solid fa-trash"></i></button></td>
+                            <td class="info-last"><button id="deletar" class="btn-basico vermelho"><i class="fa-solid fa-trash"></i></button></td>
                         </tr>
                         <tr>
                             <td>Nome todo da disciplina</td>
@@ -180,7 +180,7 @@
                             <td>6,3</td>
                             <td>7,2</td>
                             <td>6,0</td>
-                            <td><button id="deletar" class="btn-basico vermelho"><i class="fa-solid fa-trash"></i></button></td>
+                            <td class="info-last"><button id="deletar" class="btn-basico vermelho"><i class="fa-solid fa-trash"></i></button></td>
                         </tr>
                     </tbody>
                 </table>
