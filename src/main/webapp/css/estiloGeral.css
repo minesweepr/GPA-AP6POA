@@ -34,7 +34,7 @@ ul{
     padding: 0;
 }
 
-p, li{font-weight: 500;}
+p, h3, li{font-weight: 500;}
 
 /*sidebar*/
 aside{
