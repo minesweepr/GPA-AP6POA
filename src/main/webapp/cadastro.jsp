@@ -14,7 +14,7 @@
 <body>
 
 <main class="auth-container">
-    <form action="LoginServlet" method="post">
+    <form action="" method="post">
 
         <section class="auth-header">
             <h2>
@@ -28,36 +28,43 @@
         </section>
 
         <section class="auth-body">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nomeAluno" placeholder="Digite seu nome..." required>
+
+            <label for="escolaridade">Escolaridade</label>
+            <select id="escolaridade" name="escolaridade" class="select-custom" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="fundamental">Ensino Fundamental</option>
+                <option value="medio">Ensino Médio</option>
+                <option value="superior">Ensino Superior</option>
+            </select>
+
             <label for="email">E-mail</label>
             <input type="text" id="email" name="emailAluno" placeholder="seuemail@gmail.com" required>
 
             <label for="senha">Senha</label>
             <input type="password" id="senha" name="senhaAluno" placeholder="senhaexemplo" required>
 
-            <input type="submit" value="ENTRAR">
+            <input type="submit" value="CADASTRAR">
 
             <%
-                String erro = (String) request.getAttribute("erroLogin");
+                String erro = (String) request.getAttribute("erroCadastro");
                 if(erro != null){
             %>
             <p><%= erro %></p>
             <% } %>
 
             <section class="auth-footer">
-                Não possuí conta? <a href="cadastro.jsp">cadastre-se</a>
+                Possuí conta? <a href="login.jsp">Faça Login</a>
             </section>
         </section>
 
     </form>
-
-
 </main>
 
 <footer>
     <span>© GPA</span>
 </footer>
-
-
 
 </body>
 </html>
