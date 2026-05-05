@@ -9,12 +9,14 @@ import java.util.List;
 
 public class MateriaConector {
     // Retorna todas as disciplinas oferecidas
-    public List<Materia> listarTodas() {
+    public List<Materia> listarTodas(int idAluno) {
         List<Materia> lista = new ArrayList<>();
-        String sql = "SELECT * FROM materia";
+        String sql = "SELECT * FROM materia WHERE id_aluno=?";
         try (Connection con = ConexaoBD.conectar();
-             PreparedStatement stmt = con.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, idAluno);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Materia m = new Materia();
@@ -22,6 +24,7 @@ public class MateriaConector {
                 m.setNome(rs.getString("nome"));
                 m.setSigla(rs.getString("sigla"));
                 m.setCreditos(rs.getInt("creditos"));
+
                 lista.add(m);
             }
         } catch (SQLException e) {
@@ -31,12 +34,13 @@ public class MateriaConector {
     }
 
     public void inserir(Materia materia){
-        String sql="INSERT INTO materia (nome, sigla, creditos) VALUES (?, ?, ?)";
+        String sql="INSERT INTO materia (nome, sigla, creditos, id_aluno) VALUES (?, ?, ?, ?)";
         try(Connection conn = ConexaoBD.conectar();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, materia.getNome());
             ps.setString(2, materia.getSigla());
             ps.setInt(3, materia.getCreditos());
+            ps.setInt(4, materia.getAluno().getId());
 
             ps.executeUpdate();
         }catch (SQLException e){e.printStackTrace();}
@@ -69,6 +73,23 @@ public class MateriaConector {
             while(rs.next()){ids.add(rs.getInt("id_materia"));}
         }catch(SQLException e){System.err.println("Erro ao buscar materias selecionadas: " + e.getMessage());}
         return ids;
+    }
+
+    public double buscarMediaMateria(int idMateria, int idSemestre){
+        double media=0.0;
+        String sql="SELECT n.mf FROM notas n " + "JOIN aluno_materia am ON n.id_aluno_materia = am.id_aluno_materia "
+                + "WHERE am.id_materia = ? AND am.id_semestre = ?";
+
+        try(Connection con=ConexaoBD.conectar();
+            PreparedStatement stmt=con.prepareStatement(sql)){
+            stmt.setInt(1, idMateria);
+            stmt.setInt(2, idSemestre);
+            ResultSet rs= stmt.executeQuery();
+            if(rs.next()){
+                media=rs.getDouble("mf");
+            }
+        }catch(SQLException e){e.printStackTrace();}
+        return media;
     }
 
     public void vincularMateriaSemestre(int idMateria, int idSemestre){

@@ -28,7 +28,7 @@
     else if(!listaSemestres.isEmpty()) semestreAtivoId=listaSemestres.get(0).getIdSemestre();
 
     // todas as materias
-    List<Materia> todasMaterias=materiaDao.listarTodas();
+    List<Materia> todasMaterias=materiaDao.listarTodas(idLogado);
     if(todasMaterias==null) todasMaterias=new ArrayList<>();
 
     // materia por semestre
@@ -123,7 +123,7 @@
                 boolean jaSelecionada=idsSelecionados.contains(m.getIdMateria());
 
                 String styleAdicional=jaSelecionada?"style='background-color: #808080;'" : "";
-                String textoBotao=jaSelecionada?"Editar" : "Selecionar";
+                String textoBotao=jaSelecionada?"Editar" : "Vincular";
                 String eventoClick=jaSelecionada?String.format("abrirModal('editar', '%d', '%s', '%s', '%d')",
                                                  m.getIdMateria(), m.getNome(), m.getSigla(), m.getCreditos())
                                                  :String.format("window.location.href='VincularMateriaServlet?idMateria=%d&idSemestre=%d'",

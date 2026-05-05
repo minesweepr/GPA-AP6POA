@@ -44,6 +44,7 @@ public class AlunoConector {
                 alunoLogado.setEmail(rs.getString("email"));
                 alunoLogado.setSenha(rs.getString("senha"));
                 alunoLogado.setEscolaridade(rs.getString("escolaridade"));
+                alunoLogado.setCr(rs.getDouble("cr"));
                 return alunoLogado;
             }
         } catch (SQLException e) {
