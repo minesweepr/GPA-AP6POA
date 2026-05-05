@@ -14,6 +14,10 @@ public class VincularMateriaServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        javax.servlet.http.HttpSession session=request.getSession();
+        model.Aluno alunoSessao=(model.Aluno) session.getAttribute("alunoAtivo");
+        if(alunoSessao==null){response.sendRedirect("login.jsp"); return;}
+
         int idMateria=Integer.parseInt(request.getParameter("idMateria"));
         int idSemestre=Integer.parseInt(request.getParameter("idSemestre"));
 

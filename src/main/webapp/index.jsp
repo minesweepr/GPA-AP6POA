@@ -57,7 +57,7 @@
     List<Integer> idsMateriasSemestre=materiaDao.listarMateriaPorSemestre(idLogado, semestreAtivoId);
     if(idsMateriasSemestre==null) idsMateriasSemestre=new ArrayList<>();
 
-    List<Materia> todasMateriasIndex=materiaDao.listarTodas();
+    List<Materia> todasMateriasIndex=materiaDao.listarTodas(idLogado);
     if(todasMateriasIndex==null) todasMateriasIndex=new ArrayList<>();
 %>
 <!DOCTYPE html>

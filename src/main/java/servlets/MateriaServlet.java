@@ -13,7 +13,12 @@ import java.io.IOException;
 public class MateriaServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+
         // dados
+        javax.servlet.http.HttpSession session=request.getSession();
+        model.Aluno alunoSessao=(model.Aluno) session.getAttribute("alunoAtivo");
+        if(alunoSessao==null){response.sendRedirect("login.jsp"); return;}
+
         String idStr=request.getParameter("idMateria");
         String nome=request.getParameter("nome");
         String sigla=request.getParameter("sigla");
@@ -26,6 +31,7 @@ public class MateriaServlet extends HttpServlet{
             materia.setNome(nome);
             materia.setSigla(sigla);
             materia.setCreditos(Integer.parseInt(creditosStr));
+            materia.setAluno(alunoSessao);
 
             // logica salvar ou editar
             if(idStr!=null && !idStr.isEmpty()){
