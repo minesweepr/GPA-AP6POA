@@ -71,6 +71,23 @@ public class MateriaConector {
         return ids;
     }
 
+    public double buscarMediaMateria(int idMateria, int idSemestre){
+        double media=0.0;
+        String sql="SELECT n.mf FROM notas n " + "JOIN aluno_materia am ON n.id_aluno_materia = am.id_aluno_materia "
+                + "WHERE am.id_materia = ? AND am.id_semestre = ?";
+
+        try(Connection con=ConexaoBD.conectar();
+            PreparedStatement stmt=con.prepareStatement(sql)){
+            stmt.setInt(1, idMateria);
+            stmt.setInt(2, idSemestre);
+            ResultSet rs= stmt.executeQuery();
+            if(rs.next()){
+                media=rs.getDouble("mf");
+            }
+        }catch(SQLException e){e.printStackTrace();}
+        return media;
+    }
+
     public void vincularMateriaSemestre(int idMateria, int idSemestre){
         String sql="INSERT INTO aluno_materia (id_materia, id_semestre) VALUES (?, ?)";
         try(Connection con=ConexaoBD.conectar();

@@ -16,6 +16,7 @@
     // instanciando os conectores (DAOs) da pasta 'conectores'
     MateriaConector materiaDao=new MateriaConector();
     SemestreConector semestreDao=new SemestreConector();
+
     // listagem e selecao de semestre
     List<Semestre> listaSemestres=semestreDao.listarPorAluno(idLogado);
     if(listaSemestres==null) listaSemestres=new ArrayList<>();
@@ -25,6 +26,39 @@
 
     if(paramSemestre!=null) semestreAtivoId=Integer.parseInt(paramSemestre);
     else if(!listaSemestres.isEmpty()) semestreAtivoId=listaSemestres.get(0).getIdSemestre();
+
+    //info geral para os cards de desempenho
+    double crAluno=alunoSessao.getCr();
+
+    double desempenhoAlunoSemestre=0.0;
+    for(Semestre s : listaSemestres){
+        if(s.getIdSemestre()==semestreAtivoId){
+            desempenhoAlunoSemestre=s.getDesempenho();
+            break;
+        }
+    }
+
+    String StatusAtualTexto, StatusAtualClasse;
+    if(desempenhoAlunoSemestre>=7){
+        StatusAtualTexto="Bom";
+        StatusAtualClasse="success";
+    }else if(desempenhoAlunoSemestre>=5){
+        StatusAtualTexto="Médio";
+        StatusAtualClasse="warning";
+    }else if(desempenhoAlunoSemestre==0.0){
+        StatusAtualTexto="N/A";
+        StatusAtualClasse=" ";
+    }else{
+        StatusAtualTexto="Ruim";
+        StatusAtualClasse="danger";
+    }
+
+    //tabela
+    List<Integer> idsMateriasSemestre=materiaDao.listarMateriaPorSemestre(idLogado, semestreAtivoId);
+    if(idsMateriasSemestre==null) idsMateriasSemestre=new ArrayList<>();
+
+    List<Materia> todasMateriasIndex=materiaDao.listarTodas();
+    if(todasMateriasIndex==null) todasMateriasIndex=new ArrayList<>();
 %>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -87,15 +121,15 @@
         <div class="stats-grid">
             <div class="white-card">
                 <h3>Coeficiente de Rendimento</h3>
-                <div class="value" id="coeficiente-de-rendimento">8.6</div>
+                <div class="value" id="coeficiente-de-rendimento"><%= crAluno %></div>
             </div>
             <div class="white-card">
                 <h3>Desempenho Semestral</h3>
-                <div class="value" id="desempenho-atual-aluno">9.3</div>
+                <div class="value" id="desempenho-atual-aluno"><%= desempenhoAlunoSemestre %></div>
             </div>
             <div class="white-card">
                 <h3>Desempenho Atual</h3>
-                <div class="value success" id="status-desempenho-atual-aluno">Bom</div>
+                <div class="value <%= StatusAtualClasse %> " id="status-desempenho-atual-aluno"><%= StatusAtualTexto %></div>
             </div>
         </div>
     </section>
@@ -111,16 +145,30 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
-                        <td><span class="tabela-sigla">4POA</span><span class="pontos"> .......... </span><span class="tabela-nota">9.9</span></td>
+                        <%
+                            int col=0;
+                            for(Integer idMat : idsMateriasSemestre){
+                                Materia matInfo=null;
+                                for(Materia m:todasMateriasIndex){
+                                    if(m.getIdMateria()==idMat){matInfo=m;break;}
+                                }
+
+                                if(matInfo!=null){
+                                    double notaMF=materiaDao.buscarMediaMateria(idMat, semestreAtivoId);
+                                    if(col>0 && col%4==0){out.print("</tr><tr>");}
+                                    String mfExibicao=(notaMF>0)?String.format("%.1f", notaMF):"N/A";
+                        %>
+                        <td><span class="tabela-sigla"><%= matInfo.getSigla() %></span>
+                        <span class="pontos"> .......... </span>
+                        <span class="tabela-nota"><%= mfExibicao %></span></td>
+                        <%
+                                    col++;
+                                }
+                            }
+
+                            while(col>0 && col%4!=0){out.print("<td></td>");col++;}
+                            if(idsMateriasSemestre.isEmpty()){out.print("<td colspan='4' style='text-align:center;'>Nenhuma matéria vinculada.</td>");}
+                        %>
                     </tr>
                 </tbody>
             </table>

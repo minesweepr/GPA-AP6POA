@@ -20,6 +20,7 @@ public class SemestreConector {
                 Semestre s=new Semestre();
                 s.setIdSemestre(rs.getInt("id_semestre"));
                 s.setTitulo(rs.getString("titulo"));
+                s.setDesempenho(rs.getDouble("desempenho"));
                 lista.add(s);
             }
         }catch (SQLException e) {System.err.println("Erro ao listar semestres: " + e.getMessage());}
