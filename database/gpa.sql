@@ -76,7 +76,6 @@ INSERT INTO `aluno` (`id_aluno`, `nome`, `email`, `senha`, `escolaridade`, `CR`)
                                                                                      (4, 'Vinicius', 'vininunes@gmail.com', 'senha123', 'ensino superior', 8.77);
 
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `aluno_materia`
 --
@@ -185,6 +184,30 @@ INSERT INTO `aluno_materia` (`id_aluno_materia`, `id_semestre`, `id_materia`) VA
                                                                                   (155, 16, 79),
                                                                                   (156, 16, 80),
                                                                                   (157, 16, 81);
+
+
+--
+-- Acionadores `aluno_materia`
+-- Gabs adiciona isso no seu Banco de dados
+DELIMITER $$
+CREATE TRIGGER `trg_insert_nota_aluno_materia` AFTER INSERT ON `aluno_materia` FOR EACH ROW BEGIN
+    INSERT INTO notas (
+        id_aluno_materia,
+        av1,
+        av2,
+        avf,
+        mf
+    )
+    VALUES (
+               NEW.id_aluno_materia,
+               NULL,
+               NULL,
+               NULL,
+               NULL
+           );
+END
+    $$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
