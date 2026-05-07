@@ -18,7 +18,7 @@ public class NotasConector {
                 "WHERE s.id_aluno = ? AND am.id_semestre = ?";
 
         try(Connection con=ConexaoBD.conectar();
-             PreparedStatement stmt=con.prepareStatement(sql)){
+            PreparedStatement stmt=con.prepareStatement(sql)){
             stmt.setInt(1, idAluno);
             stmt.setInt(2, idSemestre);
             ResultSet rs=stmt.executeQuery();
@@ -36,14 +36,64 @@ public class NotasConector {
                 nota.setIdNota(rs.getInt("id_nota"));
 
                 //getDouble pra evitar erro de cast com BigDecimal
-                nota.setAv1(rs.getDouble("av1"));
-                nota.setAv2(rs.getDouble("av2"));
-                nota.setAvf(rs.getDouble("avf"));
-                nota.setMf(rs.getDouble("mf"));
+                double av1 = rs.getDouble("av1");
+                nota.setAv1(rs.wasNull() ? null : av1);
+
+                double av2 = rs.getDouble("av2");
+                nota.setAv2(rs.wasNull() ? null : av2);
+
+                double avf = rs.getDouble("avf");
+                nota.setAvf(rs.wasNull() ? null : avf);
+                double mf = rs.getDouble("mf");
+                nota.setMf(rs.wasNull() ? null : mf);
 
                 lista.add(nota);
             }
         }catch (SQLException e) {e.printStackTrace();}
         return lista;
+    }
+
+    public void atualizarNotas(
+            int idAlunoMateria,
+            Double av1,
+            Double av2,
+            Double avf
+    ) {
+        String sql =
+                "UPDATE notas " +
+                        "SET av1 = ?, av2 = ?, avf = ? " +
+                        "WHERE id_aluno_materia = ?";
+
+        try (Connection con = ConexaoBD.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setObject(1, av1);
+            stmt.setObject(2, av2);
+            stmt.setObject(3, avf);
+            stmt.setInt(4, idAlunoMateria);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deletarNota(int idAlunoMateria){
+        //só prototipo, nao funcionando ainda
+        String sql =
+                "DELETE FROM notas " +
+                        "WHERE id_aluno_materia = ?";
+
+        try(Connection con = ConexaoBD.conectar();
+            PreparedStatement stmt = con.prepareStatement(sql)){
+
+            stmt.setInt(1, idAlunoMateria);
+
+            stmt.executeUpdate();
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 }

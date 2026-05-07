@@ -34,6 +34,16 @@
     // materia por semestre
     List<Integer> idsSelecionados=materiaDao.listarMateriaPorSemestre(idLogado, semestreAtivoId);
     if(idsSelecionados==null) idsSelecionados=new ArrayList<>();
+
+    NotasConector notasDao=new NotasConector();
+
+    List<Notas> notas=
+            notasDao.listarNotasPorSemestre(
+                    idLogado,
+                    semestreAtivoId
+            );
+
+    if(notas==null) notas=new ArrayList<>();
 %>
 
 <!DOCTYPE html>
@@ -145,6 +155,7 @@
     <section>
         <form id="form-notas" action="SalvarNotasServlet" method="POST">
             <h2>Notas</h2>
+
             <div class="tabela-container">
                 <table class="tabela-notas">
                     <thead>
@@ -157,38 +168,79 @@
                             <th class="info-last">Excluir</th>
                         </tr>
                     </thead>
+
                     <tbody>
+
+                    <%
+                        for (Notas nota : notas) {
+                            int idAlunoMateria = nota.getAlunoMateria().getIdAlunoMateria();
+                    %>
+
                         <tr>
-                            <td>Nome todo da disciplina</td>
-                            <td>input</td>
-                            <td>input</td>
-                            <td>input</td>
-                            <td>automatico</td>
-                            <td class="info-last"><button id="deletar" class="btn-basico vermelho"><i class="fa-solid fa-trash"></i></button></td>
+                            <td>
+                                <%= nota.getAlunoMateria().getMateria().getNome() %>
+                                <input type="hidden"
+                                       name="idAlunoMateria"
+                                       value="<%= idAlunoMateria %>">
+                            </td>
+                            <td>
+                                <input type="number"
+                                       step="0.1"
+                                       min="0"
+                                       max="10"
+                                       name="av1_<%= idAlunoMateria %>"
+                                       value="<%= nota.getAv1() != null ? nota.getAv1() : "" %>">
+                            </td>
+                            <td>
+                                <input type="number"
+                                       step="0.1"
+                                       min="0"
+                                       max="10"
+                                       name="av2_<%= idAlunoMateria %>"
+                                       value="<%= nota.getAv2() != null ? nota.getAv2() : "" %>">
+                            </td>
+                            <td>
+                                <input type="number"
+                                       step="0.1"
+                                       min="0"
+                                       max="10"
+                                       name="avf_<%= idAlunoMateria %>"
+                                       value="<%= nota.getAvf() != null ? nota.getAvf() : "" %>">
+                            </td>
+                            <td>
+                                <input type="text"
+                                       readonly
+                                       value="<%= nota.getMf() != null ? nota.getMf() : "-" %>">
+                            </td>
+                            <td class="info-last">
+                                <button type="button"
+                                        class="btn-basico vermelho"
+                                        onclick="window.location.href='DeletarNotasServlet?idAlunoMateria=<%= idAlunoMateria %>&semestreId=<%= semestreAtivoId %>'">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>Nome todo da disciplina</td>
-                            <td>10,0</td>
-                            <td>10,0</td>
-                            <td>-</td>
-                            <td>10,0</td>
-                            <td class="info-last"><button id="deletar" class="btn-basico vermelho"><i class="fa-solid fa-trash"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>Nome todo da disciplina</td>
-                            <td>3,2</td>
-                            <td>6,3</td>
-                            <td>7,2</td>
-                            <td>6,0</td>
-                            <td class="info-last"><button id="deletar" class="btn-basico vermelho"><i class="fa-solid fa-trash"></i></button></td>
-                        </tr>
+
+                    <%
+                        }
+                    %>
+
                     </tbody>
                 </table>
             </div>
 
+            <input type="hidden"
+                   name="semestreId"
+                   value="<%= semestreAtivoId %>">
+
             <div class="botoes-acoes">
-                <button id="descartar" class="btn-basico secundario">Descartar mudanças</button>
-                <button id="salvar" class="btn-basico">Salvar Notas</button>
+                <button id="descartar" type="button" class="btn-basico secundario">
+                    Descartar mudanças
+                </button>
+
+                <button id="salvar" type="submit" class="btn-basico">
+                    Salvar Notas
+                </button>
             </div>
         </form>
     </section>

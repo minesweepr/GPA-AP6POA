@@ -21,6 +21,30 @@
     border: 1px solid var(--primary-orange);
 }
 
+.tabela-notas td input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    text-align: center;
+    padding: 15px 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-size: inherit;
+    vertical-align: middle;
+}
+
+.tabela-notas td input::-webkit-outer-spin-button,
+.tabela-notas td input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.tabela-notas td input[type=number]{
+    -moz-appearance: textfield;
+}
+
 .tabela-notas .info-last{
     width: 1%;
     white-space: nowrap;
