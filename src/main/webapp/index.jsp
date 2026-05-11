@@ -69,6 +69,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/estiloGeral.css">
     <link rel="stylesheet" href="css/estiloTabela.css">
+    <link rel="stylesheet" href="css/estiloModal.css">
     <link rel="stylesheet" href="css/estiloIndex.css">
 </head>
 <body>
@@ -93,28 +94,7 @@
 </aside>
 
 <main>
-    <section id="semestre-tabs">
-        <ul>
-            <%
-                int cont=1;
-                for(Semestre s : listaSemestres){
-                    String classeAtiva=(s.getIdSemestre()==semestreAtivoId)?"active" : "";
-            %>
-                <li class="tab <%= classeAtiva %>"
-                    onclick="window.location.href='index.jsp?semestreId=<%= s.getIdSemestre() %>'"
-                    style="cursor: pointer;">
-                    <div>
-                        <span class="num"><%= cont %></span>
-                        <%= s.getTitulo() %>
-                    </div>
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </li>
-            <%
-                    cont++;
-                }
-            %>
-        </ul>
-    </section>
+    <%@ include file="WEB-INF/includes/listarSemestres.jsp" %>
 
     <section>
         <h2>Cálculos</h2>
@@ -176,5 +156,7 @@
     </section>
 </main>
 
+<%@ include file="WEB-INF/includes/modalSemestre.jsp" %>
+<script src="js/scriptSemestre.js"></script>
 </body>
 </html>

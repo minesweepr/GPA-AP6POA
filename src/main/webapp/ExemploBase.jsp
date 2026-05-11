@@ -57,29 +57,7 @@
 </aside>
 
 <main>
-    <section id="semestre-tabs">
-        <ul>
-            <%
-                int cont=1;
-                for(Semestre s : listaSemestres){
-                    String classeAtiva=(s.getIdSemestre()==semestreAtivoId)?"active" : "";
-            %>
-                <li class="tab <%= classeAtiva %>"
-                    // nao esquecer de mudar o SUAPAGINAAQUI
-                    onclick="window.location.href='SUAPAGINAAQUI.jsp?semestreId=<%= s.getIdSemestre() %>'"
-                    style="cursor: pointer;">
-                    <div>
-                        <span class="num"><%= cont %></span>
-                        <%= s.getTitulo() %>
-                    </div>
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </li>
-            <%
-                    cont++;
-                }
-            %>
-        </ul>
-    </section>
+    <%@ include file="WEB-INF/includes/listarSemestres.jsp" %>
 
     <section>
         <h2>teste h2</h2>
@@ -97,5 +75,7 @@
     </section>
 </main>
 
+<%@ include file="WEB-INF/includes/modalSemestre.jsp" %>
+<script src="js/scriptSemestre.js"></script>
 </body>
 </html>

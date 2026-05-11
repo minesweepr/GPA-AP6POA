@@ -1,6 +1,7 @@
 package conectores;
 
 import conexao.ConexaoBD;
+import model.Materia;
 import model.Semestre;
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,5 +26,38 @@ public class SemestreConector {
             }
         }catch (SQLException e) {System.err.println("Erro ao listar semestres: " + e.getMessage());}
         return lista;
+    }
+
+    public void inserir(Semestre semestre){
+        String sql="INSERT INTO semestre (id_aluno, titulo) VALUES (?, ?)";
+        try(Connection conn = ConexaoBD.conectar();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, semestre.getAluno().getId());
+            ps.setString(2, semestre.getTitulo());
+
+            ps.executeUpdate();
+        }catch (SQLException e){e.printStackTrace();}
+    }
+
+    public void alterar(Semestre semestre){
+        String sql="UPDATE semestre SET titulo = ? WHERE id_semestre = ?";
+        try(Connection conn=ConexaoBD.conectar();
+            PreparedStatement ps=conn.prepareStatement(sql)){
+            ps.setString(1, semestre.getTitulo());
+            ps.setInt(2, semestre.getIdSemestre());
+
+            ps.executeUpdate();
+        }catch (SQLException e){e.printStackTrace();}
+    }
+
+    public void excluir(int idSemestre, int idAluno){
+        String sql="DELETE FROM semestre WHERE id_semestre = ? AND id_aluno = ?";
+        try(Connection conn=ConexaoBD.conectar();
+            PreparedStatement ps=conn.prepareStatement(sql)){
+            ps.setInt(1, idSemestre);
+            ps.setInt(2, idAluno);
+
+            ps.execute();
+        }catch (SQLException e){e.printStackTrace();}
     }
 }
