@@ -215,7 +215,7 @@
                             <td class="info-last">
                                 <button type="button"
                                         class="btn-basico vermelho"
-                                        onclick="window.location.href='DeletarNotasServlet?idAlunoMateria=<%= idAlunoMateria %>&semestreId=<%= semestreAtivoId %>'">
+                                        onclick="if(confirm('Tem certeza que deseja excluir esta matéria do semestre?')) window.location.href='DeletarNotasServlet?idAlunoMateria=<%= idAlunoMateria %>&semestreId=<%= semestreAtivoId %>'">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </td>
@@ -234,7 +234,7 @@
                    value="<%= semestreAtivoId %>">
 
             <div class="botoes-acoes">
-                <button id="descartar" type="button" class="btn-basico secundario">
+                <button id="descartar" type="reset" value="Reset the form" class="btn-basico secundario">
                     Descartar mudanças
                 </button>
 
