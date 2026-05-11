@@ -14,7 +14,7 @@
 <body>
 
 <main class="auth-container">
-    <form action="" method="post">
+    <form action="CadastroServlet" method="post">
 
         <section class="auth-header">
             <h2>
