@@ -79,20 +79,22 @@ public class NotasConector {
         }
     }
 
-    public void deletarNota(int idAlunoMateria){
-        //só prototipo, nao funcionando ainda
-        String sql =
-                "DELETE FROM notas " +
-                        "WHERE id_aluno_materia = ?";
+    public void excluirNotas(int semestreId, int idAlunoMateria){
 
-        try(Connection con = ConexaoBD.conectar();
-            PreparedStatement stmt = con.prepareStatement(sql)){
+        String sql =
+                "DELETE FROM aluno_materia " +
+                        "WHERE id_aluno_materia = ? " +
+                        "AND id_semestre = ?";
+
+        try (Connection con = ConexaoBD.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setInt(1, idAlunoMateria);
+            stmt.setInt(2, semestreId);
 
             stmt.executeUpdate();
 
-        }catch(SQLException e){
+        } catch(Exception e){
             e.printStackTrace();
         }
     }
