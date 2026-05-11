@@ -102,6 +102,8 @@ main>section{margin-bottom: 60px;}
 }
 
 li.tab{
+    position: relative;
+    overflow: visible !important;
     gap: 50px;
     padding: 10px 25px;
     border: 1.5px solid var(--primary-orange);
@@ -124,25 +126,18 @@ li.tab{
 
 .tab:hover:not(.active){background: var(--primary-light);}
 
-.tab.active{
+.tab.active, #adc-semestre{
     background-color: var(--primary-orange);
     color: white;
 }
 
-.tab.active .num{
+.tab.active .num, #adc-semestre .num{
     background-color: white;
     color: var(--primary-orange);
 }
 
-/*misc*/
-.white-card{
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-.visivel{display: flex;}
+#adc-semestre .num{margin: 0;}
+#adc-semestre{padding: 10px;}
 
 /*botões*/
 .btn-basico{
@@ -166,3 +161,48 @@ li.tab{
 }
 
 .vermelho{background-color: var(--danger-red);}
+
+/*dropdow semestre*/
+.tab{position: relative;}
+
+.dropdown-semestre{
+    position: absolute;
+    top: 89px;
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: none!important;
+    flex-direction: column;
+    z-index: 999;
+}
+
+.dropdown-semestre button{
+    width: 100%;
+    user-select: none;
+    background: none;
+    border: none;
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-semestre button:hover{background-color: rgb(245, 245, 248);}
+.dropdown-semestre button:hover:last-of-type{color: var(--danger-red);}
+.tab i.fa-solid.fa-ellipsis-vertical{padding: 0 5px 0 10px;}
+
+/*misc*/
+.white-card{
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.visivel{display: flex!important;}

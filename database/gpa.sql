@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 05, 2026 at 11:29 PM
+-- Generation Time: May 11, 2026 at 06:35 PM
 -- Server version: 12.2.2-MariaDB
 -- PHP Version: 8.4.0
 
@@ -73,9 +73,10 @@ CREATE TABLE IF NOT EXISTS `aluno` (
 INSERT INTO `aluno` (`id_aluno`, `nome`, `email`, `senha`, `escolaridade`, `CR`) VALUES
                                                                                      (1, 'João Pedro', 'joao@gmail.com', 'senha123', 'ensino superior', NULL),
                                                                                      (3, 'Vera Antônia', 'verant@gmail.com', 'senha123', 'ensino médio', NULL),
-                                                                                     (4, 'Vinicius', 'vininunes@gmail.com', 'senha123', 'ensino superior', 8.77);
+                                                                                     (4, 'Vinicius', 'vininunes@gmail.com', 'senha123', 'ensino superior', 8.65);
 
 -- --------------------------------------------------------
+
 --
 -- Table structure for table `aluno_materia`
 --
@@ -88,42 +89,13 @@ CREATE TABLE IF NOT EXISTS `aluno_materia` (
     PRIMARY KEY (`id_aluno_materia`),
     UNIQUE KEY `id_semestre` (`id_semestre`,`id_materia`),
     KEY `fk_am_materia` (`id_materia`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=231 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `aluno_materia`
 --
 
 INSERT INTO `aluno_materia` (`id_aluno_materia`, `id_semestre`, `id_materia`) VALUES
-                                                                                  (114, 1, 22),
-                                                                                  (115, 1, 23),
-                                                                                  (116, 1, 24),
-                                                                                  (117, 1, 25),
-                                                                                  (118, 1, 26),
-                                                                                  (119, 1, 27),
-                                                                                  (120, 1, 28),
-                                                                                  (121, 1, 29),
-                                                                                  (100, 2, 8),
-                                                                                  (101, 2, 9),
-                                                                                  (102, 2, 10),
-                                                                                  (103, 2, 11),
-                                                                                  (104, 2, 12),
-                                                                                  (105, 2, 13),
-                                                                                  (106, 2, 14),
-                                                                                  (107, 2, 15),
-                                                                                  (108, 4, 16),
-                                                                                  (109, 4, 17),
-                                                                                  (110, 4, 18),
-                                                                                  (111, 4, 19),
-                                                                                  (112, 4, 20),
-                                                                                  (113, 4, 21),
-                                                                                  (93, 5, 1),
-                                                                                  (94, 5, 2),
-                                                                                  (95, 5, 3),
-                                                                                  (96, 5, 4),
-                                                                                  (97, 5, 5),
-                                                                                  (98, 5, 6),
-                                                                                  (99, 5, 7),
                                                                                   (63, 6, 41),
                                                                                   (64, 6, 42),
                                                                                   (65, 6, 43),
@@ -144,51 +116,80 @@ INSERT INTO `aluno_materia` (`id_aluno_materia`, `id_semestre`, `id_materia`) VA
                                                                                   (80, 11, 58),
                                                                                   (81, 11, 59),
                                                                                   (82, 11, 60),
-                                                                                  (83, 12, 61),
-                                                                                  (84, 12, 62),
-                                                                                  (85, 12, 63),
-                                                                                  (86, 12, 64),
-                                                                                  (122, 13, 70),
-                                                                                  (123, 13, 71),
-                                                                                  (124, 13, 72),
-                                                                                  (125, 13, 73),
-                                                                                  (126, 13, 74),
-                                                                                  (133, 13, 75),
-                                                                                  (132, 13, 76),
-                                                                                  (131, 13, 77),
-                                                                                  (130, 13, 78),
-                                                                                  (129, 13, 79),
-                                                                                  (128, 13, 80),
-                                                                                  (127, 13, 81),
-                                                                                  (134, 14, 70),
-                                                                                  (135, 14, 71),
-                                                                                  (136, 14, 72),
-                                                                                  (137, 14, 73),
-                                                                                  (138, 14, 74),
-                                                                                  (139, 14, 75),
-                                                                                  (140, 14, 76),
-                                                                                  (141, 14, 77),
-                                                                                  (142, 14, 78),
-                                                                                  (143, 14, 79),
-                                                                                  (144, 14, 80),
-                                                                                  (145, 14, 81),
-                                                                                  (146, 16, 70),
-                                                                                  (147, 16, 71),
-                                                                                  (148, 16, 72),
-                                                                                  (149, 16, 73),
-                                                                                  (150, 16, 74),
-                                                                                  (151, 16, 75),
-                                                                                  (152, 16, 76),
-                                                                                  (153, 16, 77),
-                                                                                  (154, 16, 78),
-                                                                                  (155, 16, 79),
-                                                                                  (156, 16, 80),
-                                                                                  (157, 16, 81);
-
+                                                                                  (161, 12, 61),
+                                                                                  (160, 12, 62),
+                                                                                  (159, 12, 63),
+                                                                                  (158, 12, 64),
+                                                                                  (177, 19, 70),
+                                                                                  (178, 19, 71),
+                                                                                  (179, 19, 72),
+                                                                                  (180, 19, 73),
+                                                                                  (181, 19, 74),
+                                                                                  (182, 19, 75),
+                                                                                  (183, 19, 76),
+                                                                                  (184, 19, 77),
+                                                                                  (185, 19, 78),
+                                                                                  (186, 19, 79),
+                                                                                  (187, 19, 80),
+                                                                                  (188, 19, 81),
+                                                                                  (201, 20, 70),
+                                                                                  (166, 20, 71),
+                                                                                  (167, 20, 72),
+                                                                                  (168, 20, 73),
+                                                                                  (169, 20, 74),
+                                                                                  (176, 20, 75),
+                                                                                  (170, 20, 76),
+                                                                                  (175, 20, 77),
+                                                                                  (174, 20, 78),
+                                                                                  (171, 20, 79),
+                                                                                  (172, 20, 80),
+                                                                                  (173, 20, 81),
+                                                                                  (189, 21, 70),
+                                                                                  (190, 21, 71),
+                                                                                  (191, 21, 72),
+                                                                                  (192, 21, 73),
+                                                                                  (193, 21, 74),
+                                                                                  (195, 21, 75),
+                                                                                  (194, 21, 76),
+                                                                                  (196, 21, 77),
+                                                                                  (197, 21, 78),
+                                                                                  (198, 21, 79),
+                                                                                  (199, 21, 80),
+                                                                                  (200, 21, 81),
+                                                                                  (202, 22, 1),
+                                                                                  (203, 22, 2),
+                                                                                  (204, 22, 3),
+                                                                                  (205, 22, 4),
+                                                                                  (206, 22, 5),
+                                                                                  (207, 22, 6),
+                                                                                  (208, 22, 7),
+                                                                                  (209, 23, 8),
+                                                                                  (210, 23, 9),
+                                                                                  (211, 23, 10),
+                                                                                  (212, 23, 11),
+                                                                                  (213, 23, 12),
+                                                                                  (214, 23, 13),
+                                                                                  (215, 23, 14),
+                                                                                  (216, 23, 15),
+                                                                                  (217, 24, 16),
+                                                                                  (218, 24, 17),
+                                                                                  (219, 24, 18),
+                                                                                  (220, 24, 19),
+                                                                                  (221, 24, 20),
+                                                                                  (222, 24, 21),
+                                                                                  (223, 25, 22),
+                                                                                  (224, 25, 23),
+                                                                                  (225, 25, 24),
+                                                                                  (226, 25, 25),
+                                                                                  (227, 25, 26),
+                                                                                  (228, 25, 27),
+                                                                                  (229, 25, 28),
+                                                                                  (230, 25, 29);
 
 --
--- Acionadores `aluno_materia`
--- Gabs adiciona isso no seu Banco de dados
+-- Triggers `aluno_materia`
+--
+DROP TRIGGER IF EXISTS `trg_insert_nota_aluno_materia`;
 DELIMITER $$
 CREATE TRIGGER `trg_insert_nota_aluno_materia` AFTER INSERT ON `aluno_materia` FOR EACH ROW BEGIN
     INSERT INTO notas (
@@ -318,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `notas` (
     `mf` decimal(4,2) DEFAULT NULL,
     PRIMARY KEY (`id_nota`),
     UNIQUE KEY `id_aluno_materia` (`id_aluno_materia`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `notas`
@@ -344,7 +345,76 @@ INSERT INTO `notas` (`id_nota`, `id_aluno_materia`, `av1`, `av2`, `avf`, `mf`) V
                                                                                    (34, 79, 6.00, 8.18, NULL, 7.09),
                                                                                    (35, 80, 9.00, 10.00, NULL, 9.50),
                                                                                    (36, 81, 8.00, 9.00, NULL, 8.50),
-                                                                                   (37, 82, 8.35, 9.00, NULL, 8.68);
+                                                                                   (37, 82, 8.35, 9.00, NULL, 8.68),
+                                                                                   (38, 158, 6.00, 7.00, NULL, 6.50),
+                                                                                   (39, 159, 8.00, NULL, NULL, NULL),
+                                                                                   (40, 160, NULL, NULL, NULL, NULL),
+                                                                                   (41, 161, NULL, NULL, NULL, NULL),
+                                                                                   (46, 166, NULL, NULL, NULL, NULL),
+                                                                                   (47, 167, NULL, NULL, NULL, NULL),
+                                                                                   (48, 168, NULL, NULL, NULL, NULL),
+                                                                                   (49, 169, NULL, NULL, NULL, NULL),
+                                                                                   (50, 170, NULL, NULL, NULL, NULL),
+                                                                                   (51, 171, NULL, NULL, NULL, NULL),
+                                                                                   (52, 172, NULL, NULL, NULL, NULL),
+                                                                                   (53, 173, NULL, NULL, NULL, NULL),
+                                                                                   (54, 174, NULL, NULL, NULL, NULL),
+                                                                                   (55, 175, NULL, NULL, NULL, NULL),
+                                                                                   (56, 176, NULL, NULL, NULL, NULL),
+                                                                                   (57, 177, NULL, NULL, NULL, NULL),
+                                                                                   (58, 178, NULL, NULL, NULL, NULL),
+                                                                                   (59, 179, NULL, NULL, NULL, NULL),
+                                                                                   (60, 180, NULL, NULL, NULL, NULL),
+                                                                                   (61, 181, NULL, NULL, NULL, NULL),
+                                                                                   (62, 182, NULL, NULL, NULL, NULL),
+                                                                                   (63, 183, NULL, NULL, NULL, NULL),
+                                                                                   (64, 184, NULL, NULL, NULL, NULL),
+                                                                                   (65, 185, NULL, NULL, NULL, NULL),
+                                                                                   (66, 186, NULL, NULL, NULL, NULL),
+                                                                                   (67, 187, NULL, NULL, NULL, NULL),
+                                                                                   (68, 188, NULL, NULL, NULL, NULL),
+                                                                                   (69, 189, NULL, NULL, NULL, NULL),
+                                                                                   (70, 190, NULL, NULL, NULL, NULL),
+                                                                                   (71, 191, NULL, NULL, NULL, NULL),
+                                                                                   (72, 192, NULL, NULL, NULL, NULL),
+                                                                                   (73, 193, NULL, NULL, NULL, NULL),
+                                                                                   (74, 194, NULL, NULL, NULL, NULL),
+                                                                                   (75, 195, NULL, NULL, NULL, NULL),
+                                                                                   (76, 196, NULL, NULL, NULL, NULL),
+                                                                                   (77, 197, NULL, NULL, NULL, NULL),
+                                                                                   (78, 198, NULL, NULL, NULL, NULL),
+                                                                                   (79, 199, NULL, NULL, NULL, NULL),
+                                                                                   (80, 200, NULL, NULL, NULL, NULL),
+                                                                                   (81, 201, NULL, NULL, NULL, NULL),
+                                                                                   (82, 202, NULL, NULL, NULL, NULL),
+                                                                                   (83, 203, NULL, NULL, NULL, NULL),
+                                                                                   (84, 204, NULL, NULL, NULL, NULL),
+                                                                                   (85, 205, NULL, NULL, NULL, NULL),
+                                                                                   (86, 206, NULL, NULL, NULL, NULL),
+                                                                                   (87, 207, NULL, NULL, NULL, NULL),
+                                                                                   (88, 208, NULL, NULL, NULL, NULL),
+                                                                                   (89, 209, NULL, NULL, NULL, NULL),
+                                                                                   (90, 210, NULL, NULL, NULL, NULL),
+                                                                                   (91, 211, NULL, NULL, NULL, NULL),
+                                                                                   (92, 212, NULL, NULL, NULL, NULL),
+                                                                                   (93, 213, NULL, NULL, NULL, NULL),
+                                                                                   (94, 214, NULL, NULL, NULL, NULL),
+                                                                                   (95, 215, NULL, NULL, NULL, NULL),
+                                                                                   (96, 216, NULL, NULL, NULL, NULL),
+                                                                                   (97, 217, NULL, NULL, NULL, NULL),
+                                                                                   (98, 218, NULL, NULL, NULL, NULL),
+                                                                                   (99, 219, NULL, NULL, NULL, NULL),
+                                                                                   (100, 220, NULL, NULL, NULL, NULL),
+                                                                                   (101, 221, NULL, NULL, NULL, NULL),
+                                                                                   (102, 222, NULL, NULL, NULL, NULL),
+                                                                                   (103, 223, NULL, NULL, NULL, NULL),
+                                                                                   (104, 224, NULL, NULL, NULL, NULL),
+                                                                                   (105, 225, NULL, NULL, NULL, NULL),
+                                                                                   (106, 226, NULL, NULL, NULL, NULL),
+                                                                                   (107, 227, NULL, NULL, NULL, NULL),
+                                                                                   (108, 228, NULL, NULL, NULL, NULL),
+                                                                                   (109, 229, NULL, NULL, NULL, NULL),
+                                                                                   (110, 230, NULL, NULL, NULL, NULL);
 
 --
 -- Triggers `notas`
@@ -416,25 +486,25 @@ CREATE TABLE IF NOT EXISTS `semestre` (
     `desempenho` decimal(4,2) DEFAULT 0.00,
     PRIMARY KEY (`id_semestre`),
     UNIQUE KEY `id_aluno` (`id_aluno`,`titulo`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `semestre`
 --
 
 INSERT INTO `semestre` (`id_semestre`, `id_aluno`, `titulo`, `desempenho`) VALUES
-                                                                               (1, 1, '2026.1', 0.00),
-                                                                               (2, 1, '2025.1', 0.00),
-                                                                               (4, 1, '2025.2', 0.00),
-                                                                               (5, 1, '2024.2', 0.00),
                                                                                (6, 4, '2024.1', 8.48),
                                                                                (9, 4, '2024.2', 8.92),
                                                                                (10, 4, '2025.1', 9.11),
                                                                                (11, 4, '2025.2', 8.75),
-                                                                               (12, 4, '2026.1', 0.00),
-                                                                               (13, 3, '2026.1', 0.00),
-                                                                               (14, 3, '2025.2', 0.00),
-                                                                               (16, 3, '2025.1', 0.00);
+                                                                               (12, 4, '2026.1', 6.50),
+                                                                               (19, 3, '2025.2', NULL),
+                                                                               (20, 3, '2025.1', NULL),
+                                                                               (21, 3, '2026.1', NULL),
+                                                                               (22, 1, '2024.2', NULL),
+                                                                               (23, 1, '2025.1', NULL),
+                                                                               (24, 1, '2025.2', NULL),
+                                                                               (25, 1, '2026.1', NULL);
 
 --
 -- Triggers `semestre`
