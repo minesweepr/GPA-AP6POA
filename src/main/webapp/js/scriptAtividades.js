@@ -1,4 +1,45 @@
-//atividade
+window.addEventListener("load", () => {
+
+    const containerPrazo =
+        document.getElementById(
+            "container-lista-disciplinas"
+        );
+
+    if (
+        !containerPrazo.querySelector(
+            ".course-card"
+        )
+    ) {
+
+        containerPrazo.style.display =
+            "block";
+
+        containerPrazo.innerHTML = `
+            <div class="sem-prazo">
+                Nenhuma atividade pendente
+            </div>
+        `;
+    }
+
+    const listaAtividades =
+        document.getElementById(
+            "lista-atividades"
+        );
+
+    if (
+        !listaAtividades.querySelector(
+            ".atividade"
+        )
+    ) {
+
+        listaAtividades.innerHTML = `
+            <div class="sem-prazo">
+                Nenhuma atividade no filtro atual
+            </div>
+        `;
+    }
+});
+
 // abrir modal
 function abrirModal() {
     const modal = document.getElementById("modal-atividade-container");
@@ -15,22 +56,31 @@ function fecharModal() {
     }
 }
 
-// excluir atividade
-function excluirAtividade(id) {
+function excluirAtividade(
+    id,
+    semestreId,
+    filtro
+) {
 
-    let confirmar = confirm("Excluir atividade?");
-
-    if (confirmar) {
-        window.location.href = "AtividadeServlet?id=" + id;
-    }
+    window.location.href =
+        "AtividadeServlet?id="
+        + id
+        + "&semestreId="
+        + semestreId
+        + "&filtro="
+        + filtro;
 }
 
-/*
-function entregarAtividade(id) {
-        window.location.href = "AtividadeServlet?id=" + id;
-    }
+function entregarAtividade(id, semestreId ,filtro){
+
+    window.location.href =
+        "MudarStateEntregueServlet?id="
+        + id
+        + "&semestreId="
+        + semestreId
+        + "&filtro="
+        + filtro;
 }
- */
 
 //card
 function toggleMenu() {

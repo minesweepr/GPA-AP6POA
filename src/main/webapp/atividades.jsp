@@ -3,6 +3,7 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="model.*" %>
 <%@ page import="conectores.*" %>
+<%@ page import="state.*" %>
 
 <%
     // dados login
@@ -46,16 +47,14 @@
                     semestreAtivoId
             );
 
-    String filtro =
-            request.getParameter(
-                    "filtro"
-            );
+    String filtro = request.getParameter("filtro");
 
     if(filtro == null){
         filtro = "atribuida";
     }
-%>
 
+
+%>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -66,6 +65,7 @@
     <link rel="stylesheet" href="css/estiloGeral.css">
     <link rel="stylesheet" href="css/estiloModal.css">
     <link rel="stylesheet" href="css/estiloAtividade.css">
+    <link rel="stylesheet" href="css/estiloCard.css">
 </head>
 <body>
 
@@ -74,8 +74,8 @@
     <nav>
         <ul>
             <li class="link_animation" onclick="window.location.href='index.jsp'"><i class="fa-solid fa-house"></i> Desempenho</li>
-            <li class="active" onclick="window.location.href='notas.jsp'"><i class="fa-regular fa-copy"></i> Notas</li>
-            <li class="link_animation" onclick="window.location.href='atividades.jsp?filtro=atribuida'"><i class="fa-solid fa-list"></i> Atividades</li>
+            <li class="link_animation" onclick="window.location.href='notas.jsp'"><i class="fa-regular fa-copy"></i> Notas</li>
+            <li class="active" onclick="window.location.href='atividades.jsp?filtro=atribuida'"><i class="fa-solid fa-list"></i> Atividades</li>
             <li class="link_animation" onclick="window.location.href='calendario.jsp'"><i class="fa-regular fa-calendar"></i> Calendário</li>
         </ul>
     </nav>
@@ -97,10 +97,31 @@
    <div class="courses-grid" id="container-lista-disciplinas">
 
    <%
-   for(AlunoMateria am : materiasSemestre){
+   boolean temPrazo = false;
 
+   for(AlunoMateria am : materiasSemestre){
        Materia m = am.getMateria();
-       boolean tem = false;
+
+       boolean temAtividadeValida = false;
+
+           for (Trabalho t : trabalhos) {
+
+               if (t.getIdAlunoMateria() != am.getIdAlunoMateria()) {
+                   continue;
+               }
+
+               String estado = t.getEstado().getNome().toLowerCase();
+
+               if (estado.equals("pendente") || estado.equals("atribuida")) {
+                   temAtividadeValida = true;
+                   temPrazo = true;
+                   break;
+               }
+           }
+
+           if (!temAtividadeValida) {
+               continue;
+           }
    %>
 
    <div class="course-card" id="card-disciplina-<%= m.getIdMateria() %>">
@@ -114,9 +135,35 @@
 
        <div class="course-summary" onclick="alternarDetalhesCard('card-disciplina-<%= m.getIdMateria() %>')">
 
-           <div class="progress-bar-container">
-               <div class="progress-bar"></div>
-           </div>
+          <%
+
+          String corFinal = "transparent";
+          int max = 0;
+
+          for (Trabalho t : trabalhos) {
+
+              // 🔥 FILTRO POR MATÉRIA
+              if (t.getIdAlunoMateria() != am.getIdAlunoMateria()) {
+                  continue;
+              }
+
+              if (t.getEstado().getNome().equalsIgnoreCase("entregue")) {
+                  continue;
+              }
+
+              String cor = t.getEstado().getClasseCor(t);
+              int p = t.getPrioridade();
+
+              if (p > max) {
+                  max = p;
+                  corFinal = cor;
+              }
+
+              if (p == 3) break;
+          }
+          %>
+
+          <div class="expanded-progress <%= corFinal %>"></div>
 
            <i class="fas fa-chevron-down toggle-icon"></i>
        </div>
@@ -131,34 +178,19 @@
 
                if(t.getIdAlunoMateria() == am.getIdAlunoMateria()){
 
-                   tem = true;
            %>
-
                <div class="trabalho-item">
-
                    <div class="trabalho-info">
                        <p><%= t.getTitulo() %></p>
-                       <span class="<%= t.getClasseCor() %>"></span>
+                       <span class="trabalho-prazo">
+                          Até:
+                          <%= t.getDataEntregaPrevistaFormatada() %>
+                      </span>
                    </div>
-
-                   <span class="trabalho-prazo">
-                       <%= t.getDataEntregaPrevista() %>
-                   </span>
-
+                   <div class="expanded-progress <%= t.getClasseCor() %>"></div>
                </div>
-
            <%
                }
-           }
-
-           if(!tem){
-           %>
-
-               <span style="font-size:13px;">
-                   Nenhum trabalho cadastrado
-               </span>
-
-           <%
            }
            %>
 
@@ -173,14 +205,12 @@
    </div>
 
     <%-- Seção De listar os trabalhos--%>
-    <%-- NAO MEXE NISSO QUE JA ESTA PRONTO SÓ NA SECAO ACIMA--%>
-    <section class="atividades">
-
-      <h2>Atividades
+    <h2 class="title">Atividades
       <button class="addBtn" onclick="abrirModal()">
           <i class="fa-solid fa-plus" style="color: white;"></i>
       </button>
-      </h2>
+    </h2>
+    <section class="atividades">
     
         <nav class="filtros">
 
@@ -205,7 +235,7 @@
         </nav>
 
         <%-- Cada trabalho em si pelo filtro--%>
-        <section class="lista-atividades">
+        <section class="lista-atividades" id="lista-atividades">
 
             <%
             for(Trabalho t : trabalhos){
@@ -221,7 +251,7 @@
                 }
             %>
 
-            <section class="atividade <%= t.getClasseCor() %>">
+            <section class="atividade">
 
                 <div class="conteudo">
 
@@ -255,7 +285,7 @@
 
                     <button
                     aria-label="Entregar"
-                    onclick="entregarAtividade(<%= t.getIdTrabalho() %>)">
+                    onclick="entregarAtividade(<%= t.getIdTrabalho() %>,<%= semestreAtivoId %>,'<%= filtro %>')">
                         <i class="fa-solid fa-circle-check"></i>
                     </button>
 
@@ -263,19 +293,11 @@
                     }
                     %>
 
-                    <%
-                    if(t.podeExcluir()){
-                    %>
-
                     <button
                     aria-label="Excluir"
-                    onclick="excluirAtividade(<%= t.getIdTrabalho() %>)">
+                    onclick="excluirAtividade(<%= t.getIdTrabalho() %>,<%= semestreAtivoId %>,'<%= filtro %>')">
                         <i class="fa-regular fa-trash-can"></i>
                     </button>
-
-                    <%
-                    }
-                    %>
 
                 </div>
 
@@ -300,7 +322,18 @@
                 action="<%= request.getContextPath() %>/AtividadeServlet"
                 method="POST"
             >
-                <input type="hidden" name="semestreId" value="<%= semestreAtivoId %>">
+
+                <input
+                    type="hidden"
+                    name="semestreId"
+                    value="<%= semestreAtivoId %>"
+                >
+
+                <input
+                    type="hidden"
+                    name="filtro"
+                    value="<%= filtro %>"
+                >
 
                 <section class="input-group">
                     <label for="atividade-materia">Matéria</label>
@@ -378,7 +411,8 @@
     </section>
 </div>
 
-
+<%@ include file="WEB-INF/includes/modalSemestre.jsp" %>
+<script src="js/scriptSemestre.js"></script>
 <script src="js/scriptAtividades.js"></script>
 </body>
 </html>

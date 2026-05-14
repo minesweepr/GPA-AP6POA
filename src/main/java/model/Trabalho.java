@@ -2,8 +2,8 @@ package model;
 
 import state.*;
 
-import java.time.Clock;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Trabalho {
 
@@ -16,8 +16,6 @@ public class Trabalho {
     private LocalDate dataEntregaAluno;
 
     private EstadoTrabalho estado;
-    private static final EstadoTrabalho ATRIBUIDO = new AtribuidoState();
-    private static final EstadoTrabalho PENDENTE = new PendenteState();
 
     public int getIdTrabalho() {
         return idTrabalho;
@@ -47,6 +45,15 @@ public class Trabalho {
         return dataEntregaPrevista;
     }
 
+    public String getDataEntregaPrevistaFormatada() {
+
+        if (dataEntregaPrevista == null) return "";
+
+        return dataEntregaPrevista.format(
+                DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        );
+    }
+
     public void setDataEntregaPrevista(LocalDate dataEntregaPrevista) {
         this.dataEntregaPrevista = dataEntregaPrevista;
     }
@@ -65,27 +72,23 @@ public class Trabalho {
 
     public EstadoTrabalho getEstado() {
 
-        // se for entregue nao faz a troca de estado
-        if (estado != null &&
-                (estado instanceof EntregueState ||
-                        "entregue".equalsIgnoreCase(estado.getNome()))) {
+        LocalDate hoje = LocalDate.now();
+
+        // se entregou, mantém entregue
+        if (estado instanceof EntregueState) {
             return estado;
         }
 
-        Clock clock = Clock.systemDefaultZone();
-        LocalDate hoje = LocalDate.now(clock);
-
-        // sem data tem o padrao de atribuído
-        if (dataEntregaPrevista == null) {
-            return ATRIBUIDO;
+        // se passou do prazo, vira pendente
+        if (
+                dataEntregaPrevista != null
+                        && hoje.isAfter(dataEntregaPrevista)
+        ) {
+            return new PendenteState();
         }
 
-        // passar do prazo vira pendente
-        if (hoje.isAfter(dataEntregaPrevista)) {
-            return PENDENTE;
-        }
-
-        return ATRIBUIDO;
+        // padrão
+        return new AtribuidoState();
     }
 
     public boolean podeEditar() {
@@ -101,5 +104,19 @@ public class Trabalho {
 
     public String getClasseCor() {
         return getEstado().getClasseCor(this);
+    }
+
+    public int getPrioridade() {
+
+        String cor = getClasseCor();
+
+        if (cor == null) return 0;
+
+        switch (cor) {
+            case "bg-red": return 3;
+            case "bg-yellow": return 2;
+            case "bg-gray": return 1;
+            default: return 0;
+        }
     }
 }

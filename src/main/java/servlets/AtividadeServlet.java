@@ -2,16 +2,14 @@ package servlets;
 
 import conectores.TrabalhoConector;
 import model.Trabalho;
-import state.PendenteState;
+import state.AtribuidoState;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import java.io.IOException;
-
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @WebServlet("/AtividadeServlet")
 public class AtividadeServlet
@@ -23,11 +21,16 @@ public class AtividadeServlet
             HttpServletResponse response
     )
             throws ServletException, IOException {
+        String filtro = "atribuida";
+        int semestreId = 0;
 
-        try{
+        try {
 
-            Trabalho t =
-                    new Trabalho();
+            semestreId = Integer.parseInt(request.getParameter("semestreId"));
+            filtro = request.getParameter("filtro");
+
+
+            Trabalho t = new Trabalho();
 
             t.setIdAlunoMateria(
                     Integer.parseInt(
@@ -51,22 +54,18 @@ public class AtividadeServlet
                     )
             );
 
-
-            t.setEstado(
-                    new PendenteState()
-            );
+            t.setEstado(new AtribuidoState());
 
             TrabalhoConector dao =
                     new TrabalhoConector();
 
             dao.inserir(t);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        response.sendRedirect("atividades.jsp");
+        response.sendRedirect("atividades.jsp?semestreId=" + semestreId + "&filtro=" + filtro);
     }
 
     @Override
@@ -75,19 +74,24 @@ public class AtividadeServlet
             HttpServletResponse response
     )
             throws ServletException, IOException {
+        String filtro = "atribuida";
+        int semestreId = 0;
 
-        int id =
-                Integer.parseInt(
-                        request.getParameter("id")
-                );
+        try {
 
-        TrabalhoConector dao =
-                new TrabalhoConector();
+            semestreId = Integer.parseInt(request.getParameter("semestreId"));
+            filtro = request.getParameter("filtro");
+            int id = Integer.parseInt(request.getParameter("id"));
 
-        dao.excluir(id);
+            TrabalhoConector dao =
+                    new TrabalhoConector();
 
-        response.sendRedirect(
-                "atividades.jsp"
-        );
+            dao.excluir(id);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        response.sendRedirect("atividades.jsp?semestreId=" + semestreId + "&filtro=" + filtro);
     }
 }
