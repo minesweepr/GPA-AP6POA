@@ -1,17 +1,17 @@
 package servlets;
 
+//import conectores.GoogleCalendarConector;
+import conectores.GoogleCalendarConector;
 import conectores.TrabalhoConector;
 import model.Trabalho;
-import state.PendenteState;
+import state.AtribuidoState;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import java.io.IOException;
-
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @WebServlet("/AtividadeServlet")
 public class AtividadeServlet
@@ -23,50 +23,56 @@ public class AtividadeServlet
             HttpServletResponse response
     )
             throws ServletException, IOException {
+        String filtro = "atribuida";
+        int semestreId = 0;
 
-        try{
+        try {
 
-            Trabalho t =
-                    new Trabalho();
+            semestreId = Integer.parseInt(request.getParameter("semestreId"));
+            String filtroParam = request.getParameter("filtro");
+            if (filtroParam != null) filtro = filtroParam;
 
-            t.setIdAlunoMateria(
-                    Integer.parseInt(
-                            request.getParameter(
-                                    "idAlunoMateria"
-                            )
-                    )
-            );
+            Trabalho t = new Trabalho();
 
-            t.setTitulo(
-                    request.getParameter(
-                            "titulo"
-                    )
-            );
+            t.setIdAlunoMateria(Integer.parseInt(request.getParameter("idAlunoMateria")));
+            t.setTitulo(request.getParameter("titulo"));
+            t.setDataEntregaPrevista(LocalDate.parse(request.getParameter("dataPrazo")));
+            t.setEstado(new AtribuidoState());
 
-            t.setDataEntregaPrevista(
-                    LocalDate.parse(
-                            request.getParameter(
-                                    "dataPrazo"
-                            )
-                    )
-            );
+            GoogleCalendarConector google = new GoogleCalendarConector();
+            TrabalhoConector dao = new TrabalhoConector();
 
+            String eventId = null;
 
-            t.setEstado(
-                    new PendenteState()
-            );
+            String accessToken = (String) request.getSession().getAttribute("googleAccessToken");
+            String refreshToken = (String) request.getSession().getAttribute("googleRefreshToken");
 
-            TrabalhoConector dao =
-                    new TrabalhoConector();
+            System.out.println("ACCESS TOKEN: " + accessToken);
+            System.out.println("REFRESH TOKEN: " + refreshToken);
+
+            if (accessToken != null && !accessToken.isEmpty() && refreshToken != null && !refreshToken.isEmpty()) {
+
+                System.out.println("Entrou no IF do Google");
+                try {
+                    eventId = google.criarEvento(accessToken, refreshToken, request.getSession(), t);
+                    System.out.println("EVENT ID: " + eventId);
+                } catch (Exception e) {
+                    System.out.println("Falha ao criar evento no Google Calendar");
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("TOKEN NULO OU VAZIO");
+            }
+
+            t.setIdGoogleCalendar(eventId);
 
             dao.inserir(t);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        response.sendRedirect("atividades.jsp");
+        response.sendRedirect("atividades.jsp?semestreId=" + semestreId + "&filtro=" + filtro);
     }
 
     @Override
@@ -75,19 +81,35 @@ public class AtividadeServlet
             HttpServletResponse response
     )
             throws ServletException, IOException {
+        String filtro = "atribuida";
+        int semestreId = 0;
 
-        int id =
-                Integer.parseInt(
-                        request.getParameter("id")
-                );
+        try {
 
-        TrabalhoConector dao =
-                new TrabalhoConector();
+            semestreId = Integer.parseInt(request.getParameter("semestreId"));
+            filtro = request.getParameter("filtro");
+            int id = Integer.parseInt(request.getParameter("id"));
 
-        dao.excluir(id);
+            GoogleCalendarConector google = new GoogleCalendarConector();
+            TrabalhoConector dao = new TrabalhoConector();
 
-        response.sendRedirect(
-                "atividades.jsp"
-        );
+            String accessToken = (String) request.getSession().getAttribute("googleAccessToken");
+            String refreshToken = (String) request.getSession().getAttribute("googleRefreshToken");
+
+            Trabalho trabalho = dao.buscarPorId(id);
+            google.excluirEvento(
+                    accessToken,
+                    refreshToken,
+                    request.getSession(),
+                    trabalho
+            );
+
+            dao.excluir(id);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        response.sendRedirect("atividades.jsp?semestreId=" + semestreId + "&filtro=" + filtro);
     }
 }

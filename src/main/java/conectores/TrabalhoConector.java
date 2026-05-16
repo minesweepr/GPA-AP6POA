@@ -14,8 +14,7 @@ public class TrabalhoConector {
             int idAlunoMateria
     ){
 
-        List<Trabalho> lista =
-                new ArrayList<>();
+        List<Trabalho> lista = new ArrayList<>();
 
         String sql =
                 "SELECT * FROM trabalhos " +
@@ -23,72 +22,29 @@ public class TrabalhoConector {
                         "ORDER BY data_entrega_prevista ASC";
 
         try(
-                Connection conn =
-                        ConexaoBD.conectar();
-
-                PreparedStatement ps =
-                        conn.prepareStatement(sql)
+                Connection conn = ConexaoBD.conectar();
+                PreparedStatement ps = conn.prepareStatement(sql)
         ){
 
             ps.setInt(1, idAlunoMateria);
-
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
+                Trabalho t = new Trabalho();
 
-                Trabalho t =
-                        new Trabalho();
+                t.setIdTrabalho(rs.getInt("id_trabalho"));
+                t.setIdAlunoMateria(rs.getInt("id_aluno_materia"));
+                t.setTitulo(rs.getString("titulo"));
 
-                t.setIdTrabalho(
-                        rs.getInt(
-                                "id_trabalho"
-                        )
-                );
+                Date entregaPrevista = rs.getDate("data_entrega_prevista");
 
-                t.setIdAlunoMateria(
-                        rs.getInt(
-                                "id_aluno_materia"
-                        )
-                );
+                if(entregaPrevista != null){t.setDataEntregaPrevista(entregaPrevista.toLocalDate());}
 
-                t.setTitulo(
-                        rs.getString(
-                                "titulo"
-                        )
-                );
+                Date entregaAluno = rs.getDate("data_entrega_aluno");
 
-                Date entregaPrevista =
-                        rs.getDate(
-                                "data_entrega_prevista"
-                        );
+                if(entregaAluno != null){t.setDataEntregaAluno(entregaAluno.toLocalDate());}
 
-                if(entregaPrevista != null){
-                    t.setDataEntregaPrevista(
-                            entregaPrevista
-                                    .toLocalDate()
-                    );
-                }
-
-                Date entregaAluno =
-                        rs.getDate(
-                                "data_entrega_aluno"
-                        );
-
-                if(entregaAluno != null){
-                    t.setDataEntregaAluno(
-                            entregaAluno
-                                    .toLocalDate()
-                    );
-                }
-
-                t.setEstado(
-                        EstadoFactory.criar(
-                                rs.getString(
-                                        "situacao"
-                                )
-                        )
-                );
+                t.setEstado(EstadoFactory.criar(rs.getString("situacao")));
 
                 lista.add(t);
             }
@@ -100,9 +56,7 @@ public class TrabalhoConector {
         return lista;
     }
 
-    public void inserir(
-            Trabalho trabalho
-    ){
+    public void inserir(Trabalho trabalho){
 
         String sql =
                 "INSERT INTO trabalhos " +
@@ -110,42 +64,26 @@ public class TrabalhoConector {
                         "id_aluno_materia, " +
                         "titulo, " +
                         "data_entrega_prevista, " +
-                        "situacao" +
+                        "situacao, " +
+                        "id_google_calendar" +
                         ") " +
-                        "VALUES (?, ?, ?, ?)";
+                        "VALUES (?, ?, ?, ?, ?)";
 
         try(
-                Connection conn =
-                        ConexaoBD.conectar();
-
-                PreparedStatement ps =
-                        conn.prepareStatement(sql)
+                Connection conn = ConexaoBD.conectar();
+                PreparedStatement ps = conn.prepareStatement(sql)
         ){
+            ps.setInt(1, trabalho.getIdAlunoMateria());
+            ps.setString(2, trabalho.getTitulo());
 
-            ps.setInt(
-                    1,
-                    trabalho.getIdAlunoMateria()
-            );
+            if (trabalho.getDataEntregaPrevista() != null) {
+                ps.setDate(3, Date.valueOf(trabalho.getDataEntregaPrevista()));
+            } else {
+                ps.setNull(3, Types.DATE);
+            }
 
-            ps.setString(
-                    2,
-                    trabalho.getTitulo()
-            );
-
-            ps.setDate(
-                    3,
-                    Date.valueOf(
-                            trabalho
-                                    .getDataEntregaPrevista()
-                    )
-            );
-
-            ps.setString(
-                    4,
-                    trabalho
-                            .getEstado()
-                            .getNome()
-            );
+            ps.setString(4, trabalho.getEstado().getNome());
+            ps.setString(5, trabalho.getIdGoogleCalendar());
 
             ps.executeUpdate();
 
@@ -166,21 +104,70 @@ public class TrabalhoConector {
 
             ps.setInt(1, idTrabalho);
 
-            ps.execute();
+            ps.executeUpdate();
 
         }catch(SQLException e){
             e.printStackTrace();
         }
     }
 
-    public List<Trabalho>
-    listarPorSemestre(
-            int idAluno,
-            int idSemestre
-    ){
+    public void entregar(
+            int idTrabalho
+    ) {
 
-        List<Trabalho> lista =
-                new ArrayList<>();
+        String sql =
+                "UPDATE trabalhos " +
+                        "SET situacao = ?, " +
+                        "data_entrega_aluno = ? " +
+                        "WHERE id_trabalho = ?";
+
+        try (
+                Connection conn =
+                        ConexaoBD.conectar();
+
+                PreparedStatement ps =
+                        conn.prepareStatement(
+                                sql
+                        )
+        ) {
+
+            ps.setString(
+                    1,
+                    "entregue"
+            );
+
+            ps.setDate(
+                    2,
+                    Date.valueOf(
+                            java.time.LocalDate
+                                    .now()
+                    )
+            );
+
+            ps.setInt(
+                    3,
+                    idTrabalho
+            );
+
+            int linhas =
+                    ps.executeUpdate();
+
+            if (linhas == 0) {
+
+                System.out.println(
+                        "Nenhuma atividade encontrada."
+                );
+            }
+        } catch (
+                SQLException e
+        ) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Trabalho> listarPorSemestre(int idAluno, int idSemestre){
+
+        List<Trabalho> lista = new ArrayList<>();
 
         String sql =
                 "SELECT t.* " +
@@ -195,67 +182,35 @@ public class TrabalhoConector {
                         "t.data_entrega_prevista ASC";
 
         try(
-                Connection conn =
-                        ConexaoBD.conectar();
-
-                PreparedStatement ps =
-                        conn.prepareStatement(sql)
+                Connection conn = ConexaoBD.conectar();
+                PreparedStatement ps = conn.prepareStatement(sql)
         ){
 
             ps.setInt(1, idAluno);
             ps.setInt(2, idSemestre);
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
 
-                Trabalho t =
-                        new Trabalho();
+                Trabalho t = new Trabalho();
 
-                t.setIdTrabalho(
-                        rs.getInt(
-                                "id_trabalho"
-                        )
-                );
+                t.setIdTrabalho(rs.getInt("id_trabalho"));
 
-                t.setIdAlunoMateria(
-                        rs.getInt(
-                                "id_aluno_materia"
-                        )
-                );
+                t.setIdAlunoMateria(rs.getInt("id_aluno_materia"));
 
-                t.setTitulo(
-                        rs.getString(
-                                "titulo"
-                        )
-                );
+                t.setTitulo(rs.getString("titulo"));
 
-                t.setDataEntregaPrevista(
-                        rs.getDate(
-                                "data_entrega_prevista"
-                        ).toLocalDate()
-                );
-
-                Date entregaAluno =
-                        rs.getDate(
-                                "data_entrega_aluno"
-                        );
-
-                if(entregaAluno != null){
-                    t.setDataEntregaAluno(
-                            entregaAluno
-                                    .toLocalDate()
-                    );
+                Date entregaPrevista = rs.getDate("data_entrega_prevista");
+                if (entregaPrevista != null) {
+                    t.setDataEntregaPrevista(entregaPrevista.toLocalDate());
                 }
 
-                t.setEstado(
-                        EstadoFactory.criar(
-                                rs.getString(
-                                        "situacao"
-                                )
-                        )
-                );
+                Date entregaAluno = rs.getDate("data_entrega_aluno");
+
+                if(entregaAluno != null){t.setDataEntregaAluno(entregaAluno.toLocalDate());}
+
+                t.setEstado(EstadoFactory.criar(rs.getString("situacao")));
 
                 lista.add(t);
             }
@@ -265,5 +220,49 @@ public class TrabalhoConector {
         }
 
         return lista;
+    }
+
+    public Trabalho buscarPorId(int idTrabalho) {
+
+        String sql = "SELECT * " + "FROM trabalhos " + "WHERE id_trabalho = ?";
+
+        Trabalho trabalho = null;
+
+        try (
+                Connection conn = ConexaoBD.conectar();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+
+            ps.setInt(1, idTrabalho);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    trabalho = new Trabalho();
+                    trabalho.setIdTrabalho(rs.getInt("id_trabalho"));
+
+                    trabalho.setIdAlunoMateria(rs.getInt("id_aluno_materia"));
+                    trabalho.setTitulo(rs.getString("titulo"));
+
+                    Date dataPrevista = rs.getDate("data_entrega_prevista");
+
+                    if (dataPrevista != null) {
+                        trabalho.setDataEntregaPrevista(dataPrevista.toLocalDate());}
+
+                    Date dataAluno = rs.getDate("data_entrega_aluno");
+
+                    if (dataAluno != null) {
+                        trabalho.setDataEntregaAluno(dataAluno.toLocalDate());}
+
+                    trabalho.setIdGoogleCalendar(rs.getString("id_google_calendar"));
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return trabalho;
     }
 }

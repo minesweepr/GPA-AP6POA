@@ -22,7 +22,7 @@ public class EntregueState
 
     @Override
     public boolean podeEntregar() {
-        return true;
+        return false;
     }
 
     @Override

@@ -20,19 +20,21 @@ button.addBtn {
 
 .atividades {
     width: 100%;
+    min-height: 290px;
     max-width: 900px;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-.atividades h2 {
+h2{
     display: flex;
     align-items: center;
     gap: 0.8rem;
+    margin: 40px 0px;
 }
 
-.atividades h2 button,
+h2 button,
 .acoes button {
     display: flex;
     align-items: center;
@@ -155,184 +157,6 @@ button.addBtn {
     margin-top: 0.5rem;
 }
 
-.bg-red{
-    border-left: 6px solid red;
-}
-
-.bg-yellow{
-    border-left: 6px solid orange;
-}
-
-.bg-green{
-    border-left: 6px solid green;
-}
-
-.bg-gray{
-    border-left: 6px solid gray;
-}
-
-/*do card*/
-/* CARDS DE DISCIPLINA */
-.courses-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    align-items: stretch;
-}
-
-.course-card {
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    position: relative;
-
-    height: 140px;
-}
-
-.course-header {
-    background-color: var(--primary-orange);
-    color: white;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-
-    height: 70px;
-    overflow: hidden;
-}
-
-.course-header h4 {
-    font-size: 24px;
-    letter-spacing: 1px;
-}
-
-.course-header span {
-    font-size: 12px;
-    font-weight: normal;
-    overflow: hidden;
-
-}
-
-.course-header h4, .course-header span {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 60px;
-}
-.course-summary {
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    cursor: pointer;
-    min-height: 60px;
-}
-
-.course-details {
-    display: none;
-    padding: 20px;
-}
-
-.course-card.expanded {
-    height: auto;
-    min-height: 140px;
-}
-
-.course-card.expanded .course-summary {
-    display: none;
-}
-
-.course-card.expanded .course-details {
-    display: block;
-}
-
-.course-card.expanded .course-header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    height: fit-content;
-}
-
-.course-card.expanded .course-header span {
-    overflow: visible;
-    max-width: 100%;
-    white-space: normal;
-}
-
-.toggle-icon {
-    transition: transform 0.3s ease;
-}
-
-.course-card.expanded .toggle-icon {
-    transform: rotate(180deg);
-}
-
-.divisor-card {
-    border: none;
-    border-top: 1px solid #ddd;
-    margin: 15px 0;
-}
-
-.detalhes-acoes {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-/* ITEM DO TRABALHO */
-.trabalho-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    gap: 7px;
-    border-radius: 8px;
-    background: #f5f7fb;
-    flex-direction: column;
-}
-
-.trabalho-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.trabalho-info p {
-    font-size: 10px;
-    color: var(--text-black);
-}
-
-/* barra de prazo fazer dinamico
-.trabalho-info span:last-of-type {
-
-    width: 100%;
-    background-color: red;
-    height: 2px;
-}
-*/
-
-.trabalho-prazo {
-    font-size: 10px;
-    color: var(--primary-dark);
-    font-weight: bold;
-}
-
-.course-header,
-.course-summary {
-    position: relative;
-    z-index: 2;
-    cursor: pointer;
-}
-
-.course-details {
-    position: relative;
-    z-index: 1;
-}
-
-
 .fa-circle-check {
-    color: green;
+    color: var(--success-green);;
 }

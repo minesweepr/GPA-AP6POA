@@ -1,0 +1,196 @@
+.bg-red{
+    background: red;
+}
+
+.bg-yellow{
+    background: #fbcf02;
+}
+
+.bg-green{
+    background: green;
+}
+
+.bg-gray{
+    background: gray;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+.course-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+
+    height: 140px;
+}
+
+.course-header {
+    background-color: var(--primary-orange);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    height: 70px;
+    overflow: hidden;
+}
+
+.course-header h4 {
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.course-header span {
+    font-size: 12px;
+    font-weight: normal;
+    overflow: hidden;
+
+}
+
+.course-header h4, .course-header span {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 60px;
+}
+.course-summary {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+    min-height: 60px;
+    gap: 1rem;
+}
+
+.course-details {
+    display: none;
+    padding: 20px;
+}
+
+.course-card.expanded {
+    height: auto;
+    min-height: 140px;
+}
+
+.course-card.expanded .course-summary {
+    display: none;
+}
+
+.course-card.expanded .course-details {
+    display: block;
+}
+
+.course-card.expanded .course-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 89px;
+    justify-content: center;
+}
+
+.course-card.expanded .course-header span {
+    overflow: visible;
+    max-width: 100%;
+    white-space: normal;
+}
+
+.expanded-progress {
+    width: 100%;
+    height: 7px;
+    border-radius: 20px;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.course-card.expanded .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.divisor-card {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 15px 0;
+}
+
+.detalhes-acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ITEM DO TRABALHO */
+.trabalho-item {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 12px;
+    gap: 7px;
+    border-radius: 8px;
+    background: #f5f7fb;
+    flex-direction: column;
+
+    width: 100%;
+}
+
+.trabalho-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.trabalho-info p {
+    font-size: 10px;
+    color: var(--text-black);
+    word-break: break-word;
+}
+
+/* barra de prazo fazer dinamico
+.trabalho-info span:last-of-type {
+
+    width: 100%;
+    background-color: red;
+    height: 2px;
+}
+*/
+
+.trabalho-prazo {
+    font-size: 10px;
+    color: var(--primary-dark);
+    font-weight: bold;
+}
+
+.course-header,
+.course-summary {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.course-details {
+    position: relative;
+    z-index: 1;
+}
+
+.sem-prazo {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    border-radius: 20px;
+    border:  #f5f7fb 2px solid;
+    padding: 20px;
+    box-sizing: border-box;
+}
