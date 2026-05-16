@@ -1,0 +1,199 @@
+main {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-left: 6rem;
+    padding-right: 6rem;
+}
+
+#calendar-header {
+    display: flex;
+    gap: 50px;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+
+.google-btn {
+    width: fit-content;
+    background: white;
+    border-radius: 20px;
+    border:  #f5f7fb 2px solid;
+    font-size: 14px;
+    padding: 4px 12px;
+    box-sizing: border-box;
+    color: var(--text-black);
+    text-decoration: none;
+}
+
+.google-btn .fa-brands {
+    font-size: 1.2rem;
+    background: linear-gradient(45deg, #4285F4 0%, #4285F4 30%, #45d16a 30%, #45d16a 50%, #FBBC05 50%, #FBBC05 64%, #EA4335 64%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.google-btn .fa-solid.fa-check {
+    color: var(--success-green);
+}
+
+#calendar-header {
+    margin-bottom: 45px;
+}
+
+#calendar-header a {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.aviso {
+    background: white;
+    color: var(--warning-orange);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 45px;
+    border: 1px solid #ffeeba;
+}
+
+#calendar {
+    width: 600px;
+    margin: 20px 0px;
+
+}
+
+.fc {
+
+    --fc-page-bg-color: white;
+    --fc-neutral-bg-color: white;
+    --fc-border-color: #ececec;
+
+    --fc-button-text-color: white;
+    --fc-button-bg-color: var(--primary-orange);
+    --fc-button-border-color: var(--primary-orange);
+
+    --fc-button-hover-bg-color: transparent;
+    --fc-button-hover-border-color: transparent;
+
+    --fc-button-active-bg-color: var(--primary-dark);
+    --fc-button-active-border-color: var(--primary-dark);
+
+    --fc-today-bg-color: rgb(255 224 153 / 60%);
+
+    font-size: 0.9rem;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.fc-event {
+    border-radius: 15px;
+    border: none;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.fc-h-event .fc-event-main {
+    padding: 0px 10px;
+}
+
+.fc-direction-ltr .fc-daygrid-event.fc-event-start {
+    margin-left: 3px;
+}
+.fc-direction-ltr .fc-daygrid-event.fc-event-end {
+    margin: 0px 3px;
+}
+
+.fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-end),
+.fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-start) {
+    margin: 0px 3px;
+}
+
+/* Header superior */
+.fc .fc-toolbar.fc-header-toolbar {
+    background: var(--primary-orange);
+    padding: 14px 40px;
+    border-radius: 16px 16px 0 0;
+    margin-bottom: 0;
+}
+
+
+/* título mês */
+.fc .fc-toolbar-title {
+    color: white;
+    font-weight: 600;
+}
+
+
+/* botões prev next today */
+.fc .fc-button {
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    padding: 8px 12px;
+    font-weight: 500;
+
+}
+
+.fc .fc-button-group > .fc-button.fc-button-active,
+.fc .fc-button-group > .fc-button:active,
+.fc .fc-button-group > .fc-button:focus,
+.fc .fc-button-group > .fc-button:hover {
+    background-color: rgb(227 122 0 / 0.49);
+    border:none;
+}
+
+.fc .fc-today-button.fc-button.fc-button-primary {
+    font-size: 1rem;
+    background-color: rgb(227 122 0 / 0.89);
+    margin: auto;
+}
+
+.fc .fc-today-button.fc-button.fc-button-primary,
+.fc-next-button.fc-button.fc-button-primary,
+.fc-prev-button.fc-button.fc-button-primary{
+    padding: 3px;
+}
+
+.fc-toolbar-chunk {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.fc .fc-button-group {
+    gap: 10px;
+}
+    /* header dias da semana */
+.fc .fc-col-header-cell {
+    background: white;
+}
+
+.fc .fc-col-header-cell-cushion {
+    color: #555;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 12px 0;
+}
+
+/* números do dia */
+.fc .fc-daygrid-day-number {
+    color: #333;
+    text-decoration: none;
+    padding: 8px;
+}
+
+/* células */
+.fc-theme-standard td,
+.fc-theme-standard th {
+    border-color: #efefef;
+}
+
+/* hover suave */
+.fc-daygrid-day:hover {
+    background: #fafafa;
+}
+

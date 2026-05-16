@@ -64,9 +64,10 @@ public class TrabalhoConector {
                         "id_aluno_materia, " +
                         "titulo, " +
                         "data_entrega_prevista, " +
-                        "situacao" +
+                        "situacao, " +
+                        "id_google_calendar" +
                         ") " +
-                        "VALUES (?, ?, ?, ?)";
+                        "VALUES (?, ?, ?, ?, ?)";
 
         try(
                 Connection conn = ConexaoBD.conectar();
@@ -82,6 +83,8 @@ public class TrabalhoConector {
             }
 
             ps.setString(4, trabalho.getEstado().getNome());
+            ps.setString(5, trabalho.getIdGoogleCalendar());
+
             ps.executeUpdate();
 
         }catch(SQLException e){
@@ -217,5 +220,49 @@ public class TrabalhoConector {
         }
 
         return lista;
+    }
+
+    public Trabalho buscarPorId(int idTrabalho) {
+
+        String sql = "SELECT * " + "FROM trabalhos " + "WHERE id_trabalho = ?";
+
+        Trabalho trabalho = null;
+
+        try (
+                Connection conn = ConexaoBD.conectar();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+
+            ps.setInt(1, idTrabalho);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    trabalho = new Trabalho();
+                    trabalho.setIdTrabalho(rs.getInt("id_trabalho"));
+
+                    trabalho.setIdAlunoMateria(rs.getInt("id_aluno_materia"));
+                    trabalho.setTitulo(rs.getString("titulo"));
+
+                    Date dataPrevista = rs.getDate("data_entrega_prevista");
+
+                    if (dataPrevista != null) {
+                        trabalho.setDataEntregaPrevista(dataPrevista.toLocalDate());}
+
+                    Date dataAluno = rs.getDate("data_entrega_aluno");
+
+                    if (dataAluno != null) {
+                        trabalho.setDataEntregaAluno(dataAluno.toLocalDate());}
+
+                    trabalho.setIdGoogleCalendar(rs.getString("id_google_calendar"));
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return trabalho;
     }
 }

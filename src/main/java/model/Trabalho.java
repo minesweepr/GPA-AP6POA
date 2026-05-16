@@ -17,6 +17,8 @@ public class Trabalho {
 
     private EstadoTrabalho estado;
 
+    private String idGoogleCalendar;
+
     public int getIdTrabalho() {
         return idTrabalho;
     }
@@ -119,4 +121,7 @@ public class Trabalho {
             default: return 0;
         }
     }
+
+    public String getIdGoogleCalendar() {return idGoogleCalendar;}
+    public void setIdGoogleCalendar(String idGoogleCalendar) {this.idGoogleCalendar = idGoogleCalendar;}
 }
