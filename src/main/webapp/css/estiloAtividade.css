@@ -31,7 +31,7 @@ h2{
     display: flex;
     align-items: center;
     gap: 0.8rem;
-    margin: 40px 0px;
+    margin: 40px 0;
 }
 
 h2 button,
@@ -96,6 +96,7 @@ h2 button,
     justify-content: space-between;
     padding: 1rem 1.2rem;
     max-height: 60px;
+    cursor: pointer;
 }
 
 .conteudo {
@@ -119,7 +120,7 @@ h2 button,
 .acoes {
     display: flex;
     align-items: center;
-    gap: 36px;
+    gap: 28px;
 }
 
 .acoes span {
@@ -129,6 +130,14 @@ h2 button,
     font-size: 12px;
     font-weight: 600;
     padding: 3px 18px;
+}
+
+.acoes button {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #form-atividade {
@@ -143,6 +152,10 @@ h2 button,
     gap: 0.5rem;
 }
 
+label[for="atividade-nome"] {
+    margin-top: 10px;
+}
+
 .prazo-inputs {
     display: flex;
     align-items: center;
@@ -150,11 +163,12 @@ h2 button,
     flex-wrap: wrap;
 }
 
+
 .modal-actions:last-child {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-    margin-top: 0.5rem;
+    margin-top: 35px;
 }
 
 .fa-circle-check {

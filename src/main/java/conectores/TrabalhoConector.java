@@ -10,21 +10,14 @@ import java.util.List;
 
 public class TrabalhoConector {
 
-    public List<Trabalho> listarPorAlunoMateria(
-            int idAlunoMateria
-    ){
-
+    public List<Trabalho> listarPorAlunoMateria(int idAlunoMateria){
         List<Trabalho> lista = new ArrayList<>();
-
         String sql =
                 "SELECT * FROM trabalhos " +
                         "WHERE id_aluno_materia = ? " +
                         "ORDER BY data_entrega_prevista ASC";
 
-        try(
-                Connection conn = ConexaoBD.conectar();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ){
+        try(Connection conn = ConexaoBD.conectar(); PreparedStatement ps = conn.prepareStatement(sql)){
 
             ps.setInt(1, idAlunoMateria);
             ResultSet rs = ps.executeQuery();
@@ -111,9 +104,40 @@ public class TrabalhoConector {
         }
     }
 
-    public void entregar(
-            int idTrabalho
-    ) {
+    public void atualizar(Trabalho trabalho) {
+
+        String sql =
+                "UPDATE trabalhos " +
+                        "SET " +
+                        "id_aluno_materia = ?, " +
+                        "titulo = ?, " +
+                        "data_entrega_prevista = ? " +
+                        "WHERE id_trabalho = ?";
+
+        try (Connection conn = ConexaoBD.conectar(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, trabalho.getIdAlunoMateria());
+            ps.setString(2, trabalho.getTitulo());
+
+            if (trabalho.getDataEntregaPrevista() != null) {
+                ps.setDate(3, Date.valueOf(trabalho.getDataEntregaPrevista()));
+            } else {
+                ps.setNull(3, Types.DATE);
+            }
+
+            ps.setInt(4, trabalho.getIdTrabalho());
+
+            int linhas = ps.executeUpdate();
+            if (linhas == 0) {
+                System.out.println("Nenhuma atividade encontrada para atualizar.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void entregar(int idTrabalho) {
 
         String sql =
                 "UPDATE trabalhos " +
@@ -121,46 +145,36 @@ public class TrabalhoConector {
                         "data_entrega_aluno = ? " +
                         "WHERE id_trabalho = ?";
 
-        try (
-                Connection conn =
-                        ConexaoBD.conectar();
+        try (Connection conn = ConexaoBD.conectar(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-                PreparedStatement ps =
-                        conn.prepareStatement(
-                                sql
-                        )
-        ) {
+            ps.setString(1, "entregue");
+            ps.setDate(2, Date.valueOf(java.time.LocalDate.now()));
+            ps.setInt(3, idTrabalho);
 
-            ps.setString(
-                    1,
-                    "entregue"
-            );
-
-            ps.setDate(
-                    2,
-                    Date.valueOf(
-                            java.time.LocalDate
-                                    .now()
-                    )
-            );
-
-            ps.setInt(
-                    3,
-                    idTrabalho
-            );
-
-            int linhas =
-                    ps.executeUpdate();
+            int linhas = ps.executeUpdate();
 
             if (linhas == 0) {
-
-                System.out.println(
-                        "Nenhuma atividade encontrada."
-                );
+                System.out.println("Nenhuma atividade encontrada.");
             }
-        } catch (
-                SQLException e
-        ) {
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void atualizarIdGoogleCalendar(int idTrabalho, String eventId) {
+
+        String sql =
+                "UPDATE trabalho " +
+                        "SET id_google_calendar = ? " +
+                        "WHERE id_trabalho = ?";
+
+        try (Connection conn = ConexaoBD.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, eventId);
+            stmt.setInt(2, idTrabalho);
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -181,10 +195,7 @@ public class TrabalhoConector {
                         "ORDER BY " +
                         "t.data_entrega_prevista ASC";
 
-        try(
-                Connection conn = ConexaoBD.conectar();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ){
+        try(Connection conn = ConexaoBD.conectar(); PreparedStatement ps = conn.prepareStatement(sql)){
 
             ps.setInt(1, idAluno);
             ps.setInt(2, idSemestre);
@@ -228,13 +239,9 @@ public class TrabalhoConector {
 
         Trabalho trabalho = null;
 
-        try (
-                Connection conn = ConexaoBD.conectar();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
+        try (Connection conn = ConexaoBD.conectar(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, idTrabalho);
-
             try (ResultSet rs = ps.executeQuery()) {
 
                 if (rs.next()) {

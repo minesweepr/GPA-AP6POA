@@ -206,3 +206,35 @@ li.tab{
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 .visivel{display: flex!important;}
+
+/*google button*/
+.google-btn {
+    width: fit-content;
+    background: white;
+    border-radius: 20px;
+    border:  #f5f7fb 2px solid;
+    font-size: 14px;
+    padding: 4px 12px;
+    box-sizing: border-box;
+    color: var(--text-black);
+    text-decoration: none;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-weight: normal;
+}
+
+.google-btn .fa-brands {
+    font-size: 1.2rem;
+    background: linear-gradient(45deg, #4285F4 0%, #4285F4 30%, #45d16a 30%, #45d16a 50%, #FBBC05 50%, #FBBC05 64%, #EA4335 64%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.google-btn .fa-solid.fa-check {
+    color: var(--success-green);
+}

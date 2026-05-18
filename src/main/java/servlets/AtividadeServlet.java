@@ -47,21 +47,26 @@ public class AtividadeServlet
             String accessToken = (String) request.getSession().getAttribute("googleAccessToken");
             String refreshToken = (String) request.getSession().getAttribute("googleRefreshToken");
 
-            System.out.println("ACCESS TOKEN: " + accessToken);
-            System.out.println("REFRESH TOKEN: " + refreshToken);
+            boolean googleAutenticado =
+                    accessToken != null
+                            && !accessToken.isBlank()
+                            && refreshToken != null
+                            && !refreshToken.isBlank();
 
-            if (accessToken != null && !accessToken.isEmpty() && refreshToken != null && !refreshToken.isEmpty()) {
-
-                System.out.println("Entrou no IF do Google");
+            if (googleAutenticado) {
                 try {
-                    eventId = google.criarEvento(accessToken, refreshToken, request.getSession(), t);
-                    System.out.println("EVENT ID: " + eventId);
+                    eventId = google.criarEvento(
+                            accessToken,
+                            refreshToken,
+                            request.getSession(),
+                            t
+                    );
                 } catch (Exception e) {
                     System.out.println("Falha ao criar evento no Google Calendar");
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("TOKEN NULO OU VAZIO");
+                System.out.println("Usuário não autenticado no Google");
             }
 
             t.setIdGoogleCalendar(eventId);
@@ -96,13 +101,30 @@ public class AtividadeServlet
             String accessToken = (String) request.getSession().getAttribute("googleAccessToken");
             String refreshToken = (String) request.getSession().getAttribute("googleRefreshToken");
 
+            boolean googleAutenticado =
+                    accessToken != null
+                            && !accessToken.isBlank()
+                            && refreshToken != null
+                            && !refreshToken.isBlank();
+
             Trabalho trabalho = dao.buscarPorId(id);
-            google.excluirEvento(
-                    accessToken,
-                    refreshToken,
-                    request.getSession(),
-                    trabalho
-            );
+
+            if (googleAutenticado
+                    && trabalho.getIdGoogleCalendar() != null
+                    && !trabalho.getIdGoogleCalendar().isBlank()) {
+
+                try {
+                    google.excluirEvento(
+                            accessToken,
+                            refreshToken,
+                            request.getSession(),
+                            trabalho
+                    );
+                } catch (Exception e) {
+                    System.out.println("Falha ao excluir evento Google");
+                    e.printStackTrace();
+                }
+            }
 
             dao.excluir(id);
 

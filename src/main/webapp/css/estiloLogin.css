@@ -150,6 +150,12 @@ main.auth-container{
 
 footer {
     background-color: var(--accent-black);
-    height: 76px;
+    height: 65px;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 13px;
+    color: white;
+    font-size: 0.6rem;
 }

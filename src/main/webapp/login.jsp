@@ -51,13 +51,10 @@
     </form>
 
 
+
 </main>
-
 <footer>
-    <span>© GPA</span>
+    <span> © <%= java.time.Year.now().getValue() %> GPA — Desenvolvido por Isabela de Oliveira Athayde e Gabriela da Costa Castro. Todos os direitos reservados.</span>
 </footer>
-
-
-
 </body>
 </html>

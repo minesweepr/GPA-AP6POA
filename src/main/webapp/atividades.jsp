@@ -29,8 +29,7 @@
     if(paramSemestre!=null) semestreAtivoId=Integer.parseInt(paramSemestre);
     else if(!listaSemestres.isEmpty()) semestreAtivoId=listaSemestres.get(0).getIdSemestre();
 
-    TrabalhoConector trabalhoDao =
-       new TrabalhoConector();
+    TrabalhoConector trabalhoDao = new TrabalhoConector();
 
     List<Trabalho> trabalhos =
        trabalhoDao.listarPorSemestre(
@@ -38,8 +37,7 @@
            semestreAtivoId
        );
 
-    AlunoMateriaConector alunoMateriaDao =
-            new AlunoMateriaConector();
+    AlunoMateriaConector alunoMateriaDao = new AlunoMateriaConector();
 
     List<AlunoMateria> materiasSemestre =
             alunoMateriaDao.listarPorSemestre(
@@ -53,6 +51,13 @@
         filtro = "atribuida";
     }
 
+    boolean temMateria = !materiasSemestre.isEmpty();
+
+    String googleToken = (String) session.getAttribute("googleAccessToken");
+    String refreshToken = (String) session.getAttribute("googleRefreshToken");
+    boolean googleAutenticado =
+                googleToken != null && !googleToken.isEmpty()
+                && refreshToken != null && !refreshToken.isEmpty();
 
 %>
 <!DOCTYPE html>
@@ -251,7 +256,8 @@
                 }
             %>
 
-            <section class="atividade">
+            <section class="atividade"
+             onclick="abrirModal(<%= t.getIdTrabalho() %>,<%= t.getIdAlunoMateria() %>,'<%= t.getTitulo() %>','<%= t.getDataEntregaPrevista() %>')">
 
                 <div class="conteudo">
 
@@ -285,7 +291,7 @@
 
                     <button
                     aria-label="Entregar"
-                    onclick="entregarAtividade(<%= t.getIdTrabalho() %>,<%= semestreAtivoId %>,'<%= filtro %>')">
+                    onclick="event.stopPropagation();entregarAtividade(<%= t.getIdTrabalho() %>,<%= semestreAtivoId %>,'<%= filtro %>')">
                         <i class="fa-solid fa-circle-check"></i>
                     </button>
 
@@ -295,12 +301,11 @@
 
                     <button
                     aria-label="Excluir"
-                    onclick="excluirAtividade(<%= t.getIdTrabalho() %>,<%= semestreAtivoId %>,'<%= filtro %>')">
+                    onclick="event.stopPropagation();excluirAtividade(<%= t.getIdTrabalho() %>,<%= semestreAtivoId %>,'<%= filtro %>')">
                         <i class="fa-regular fa-trash-can"></i>
                     </button>
 
                 </div>
-
             </section>
 
             <%
@@ -310,45 +315,67 @@
     </section>
 </main>
 
-<%-- Abre o modal de inserir trabalho--%>
+<%-- Modal de atividade (adicionar + atualizar) --%>
 <div class="modal-overlay" id="modal-atividade-container">
     <section class="modal-content">
         <section id="modal-titulo" class="modal-header">
             Adicionar Atividade
         </section>
         <section class="modal-body">
-            <form
-                id="form-atividade"
-                action="<%= request.getContextPath() %>/AtividadeServlet"
-                method="POST"
-            >
+            <section id="google-alerta"
+                     style="display:none; padding:12px; background:#fff3cd; border:1px solid #ffeeba; border-radius:8px; margin-bottom:15px;">
 
-                <input
-                    type="hidden"
-                    name="semestreId"
-                    value="<%= semestreAtivoId %>"
-                >
+                <p style="margin-bottom:10px;">
+                    <i class="fa-solid fa-triangle-exclamation" style="color: var(--warning-orange);"></i>
+                    <p>O Google Calendar não está autenticado.
+                    As atividades não serão enviadas para o calendário.</p>
+                    <p><br>Autentique-se agora ou quando quiser em <a href="calendario.jsp">calendarios</a>:</p>
+                    <a style="margin:15px 0px; border-color: gray;"class="google-btn" href="<%= request.getContextPath() %>/GoogleOAuthServlet">
+                         <i class="fa-brands fa-google"></i>
+                         Conectar Google Calendar
+                    </a>
+                </p>
 
-                <input
-                    type="hidden"
-                    name="filtro"
-                    value="<%= filtro %>"
-                >
+                <label style="display:flex; gap:8px; align-items:center;">
+                    <input type="checkbox" id="confirmar-prosseguir">
+                    Eu entendo e desejo prosseguir mesmo assim
+                </label>
+
+                <button type="button"
+                        class="btn-basico"
+                        id="btn-proximo"
+                        disabled
+                        style="margin-top:20px;">
+                    Próximo
+                </button>
+            </section>
+
+
+            <form id="form-atividade"
+                  action="<%= request.getContextPath() %>/AtividadeServlet"
+                  method="POST">
+
+                <input type="hidden" id="atividade-id" name="id">
+
+                <input type="hidden" name="semestreId" value="<%= semestreAtivoId %>">
+
+                <input type="hidden" name="filtro" value="<%= filtro %>">
 
                 <section class="input-group">
-                    <label for="atividade-materia">Matéria</label>
 
-                    <select
-                        id="atividade-materia"
-                        name="idAlunoMateria"
-                        required
-                    >
+                    <label for="atividade-materia">
+                        Matéria
+                    </label>
+
+                    <select id="atividade-materia"
+                            name="idAlunoMateria"
+                            required>
+
                         <option value="">
                             Selecione uma matéria
                         </option>
 
                         <%
-                        boolean temMateria = !materiasSemestre.isEmpty();
                         for(AlunoMateria am : materiasSemestre){
                         %>
 
@@ -367,44 +394,49 @@
                         <%
                         }
                         %>
-
                     </select>
                 </section>
 
                 <section class="input-group">
-                    <label for="atividade-nome">Nome</label>
-
-                    <input
-                        type="text"
-                        id="atividade-nome"
-                        name="titulo"
-                        placeholder="Nome da atividade"
-                        required
-                    >
+                    <label for="atividade-nome">
+                        Nome
+                    </label>
+                    <input type="text"
+                           id="atividade-nome"
+                           name="titulo"
+                           placeholder="Nome da atividade"
+                           required>
                 </section>
 
                 <section class="modal-actions">
 
                     <section class="input-group">
-                        <label for="atividade-data">Prazo da atividade</label>
+
+                        <label for="atividade-data">
+                            Prazo da atividade
+                        </label>
 
                         <section class="prazo-inputs">
                             <span>até</span>
-
-                            <input
-                                type="date"
-                                id="atividade-data"
-                                name="dataPrazo"
-                                required
-                            >
+                            <input type="date" id="atividade-data" name="dataPrazo" required>
 
                         </section>
                     </section>
                 </section>
 
                 <section class="modal-actions">
-                    <button type="button" class="btn-basico secundario" onclick="fecharModal()">CANCELAR</button>
-                    <button type="submit" class="btn-basico">CONFIRMAR</button>
+
+                    <button type="button"
+                            class="btn-basico secundario"
+                            onclick="fecharModal()">
+                        CANCELAR
+                    </button>
+
+                    <button type="submit"
+                            class="btn-basico">
+                        CONFIRMAR
+                    </button>
+
                 </section>
             </form>
         </section>
@@ -414,5 +446,8 @@
 <%@ include file="WEB-INF/includes/modalSemestre.jsp" %>
 <script src="js/scriptSemestre.js"></script>
 <script src="js/scriptAtividades.js"></script>
+<script>
+    window.googleAutenticado = <%= googleAutenticado %>;
+</script>
 </body>
 </html>

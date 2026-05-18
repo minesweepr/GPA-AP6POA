@@ -14,41 +14,8 @@ main {
     width: 100%;
 }
 
-
-.google-btn {
-    width: fit-content;
-    background: white;
-    border-radius: 20px;
-    border:  #f5f7fb 2px solid;
-    font-size: 14px;
-    padding: 4px 12px;
-    box-sizing: border-box;
-    color: var(--text-black);
-    text-decoration: none;
-}
-
-.google-btn .fa-brands {
-    font-size: 1.2rem;
-    background: linear-gradient(45deg, #4285F4 0%, #4285F4 30%, #45d16a 30%, #45d16a 50%, #FBBC05 50%, #FBBC05 64%, #EA4335 64%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.google-btn .fa-solid.fa-check {
-    color: var(--success-green);
-}
-
 #calendar-header {
     margin-bottom: 45px;
-}
-
-#calendar-header a {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
 }
 
 .aviso {
@@ -58,11 +25,13 @@ main {
     border-radius: 8px;
     margin-bottom: 45px;
     border: 1px solid #ffeeba;
+    width: 600px;
+    max-width: 600px;
 }
 
 #calendar {
     width: 600px;
-    margin: 20px 0px;
+    margin: 20px 0;
 
 }
 
@@ -97,19 +66,19 @@ main {
 }
 
 .fc-h-event .fc-event-main {
-    padding: 0px 10px;
+    padding: 0 10px;
 }
 
 .fc-direction-ltr .fc-daygrid-event.fc-event-start {
     margin-left: 3px;
 }
 .fc-direction-ltr .fc-daygrid-event.fc-event-end {
-    margin: 0px 3px;
+    margin: 0 3px;
 }
 
 .fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-end),
 .fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-start) {
-    margin: 0px 3px;
+    margin: 0 3px;
 }
 
 /* Header superior */
