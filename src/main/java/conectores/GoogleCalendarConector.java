@@ -41,8 +41,7 @@ public class GoogleCalendarConector {
             AccessToken token =
                     new AccessToken(accessToken, new Date(System.currentTimeMillis() + 3600_000));
 
-            GoogleCredentials credentials =
-                    GoogleCredentials.create(token);
+            GoogleCredentials credentials = GoogleCredentials.create(token);
             credentials.refreshIfExpired();
 
             return new Calendar.Builder(
@@ -119,31 +118,24 @@ public class GoogleCalendarConector {
 
         try {
 
-            if (trabalho.getIdGoogleCalendar() == null) {
-                return;
-            }
+            if (trabalho.getIdGoogleCalendar() == null) {return;}
 
             Calendar service =  getService(accessToken, refreshToken, session);
 
             Event event = service.events().get("primary", trabalho.getIdGoogleCalendar()).execute();
-
             event.setSummary(trabalho.getTitulo());
 
-            LocalDateTime inicio = trabalho.getDataEntregaPrevista().atTime(22, 0);
+            EventDateTime startOriginal = event.getStart();
+            LocalDateTime novoFim = trabalho.getDataEntregaPrevista().atTime(23, 59);
 
-            LocalDateTime fim = trabalho.getDataEntregaPrevista().atTime(23, 0);
+            EventDateTime endNovo = new EventDateTime().setDateTime(
+                                    new com.google.api.client.util.DateTime(
+                                    Date.from(novoFim.atZone(ZoneId.systemDefault()).toInstant())));
 
-            event.setStart(
-                    new EventDateTime().setDateTime(new com.google.api.client.util.DateTime(
-                                    Date.from(inicio.atZone(ZoneId.systemDefault()).toInstant()))));
-
-            event.setEnd(
-                    new EventDateTime().setDateTime(
-                            new com.google.api.client.util.DateTime(
-                                    Date.from(fim.atZone(ZoneId.systemDefault()).toInstant()))));
+            event.setStart(startOriginal);
+            event.setEnd(endNovo);
 
             service.events().update("primary", trabalho.getIdGoogleCalendar(), event).execute();
-
             System.out.println("Evento atualizado!");
 
         } catch (Exception e) {
