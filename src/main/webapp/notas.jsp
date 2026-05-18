@@ -132,7 +132,7 @@
     </section>
 
     <section>
-        <form id="form-notas" action="SalvarNotasServlet" method="POST">
+        <form id="form-notas" action="NotasServlet" method="POST" autocomplete="off">
             <h2>Notas</h2>
 
             <div class="tabela-container">
@@ -194,7 +194,7 @@
                             <td class="info-last">
                                 <button type="button"
                                         class="btn-basico vermelho"
-                                        onclick="if(confirm('Tem certeza que deseja excluir esta matéria do semestre?')) window.location.href='DeletarNotasServlet?idAlunoMateria=<%= idAlunoMateria %>&semestreId=<%= semestreAtivoId %>'">
+                                        onclick="if(confirm('Tem certeza que deseja excluir esta matéria do semestre?')) window.location.href='NotasServlet?idAlunoMateria=<%= idAlunoMateria %>&semestreId=<%= semestreAtivoId %>'">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </td>
@@ -230,22 +230,22 @@
     <div class="modal-content">
         <div id="modal-titulo" class="modal-header">Adicionar Matéria</div>
         <div class="modal-body">
-            <form id="form-materia" action="<%= request.getContextPath() %>/MateriaServlet" method="POST">
+            <form  autocomplete="off" id="form-materia" action="<%= request.getContextPath() %>/MateriaServlet" method="POST">
                 <input type="hidden" id="materia-id" name="idMateria">
                 <input type="hidden" name="semestreId" value="<%= semestreAtivoId %>">
 
                 <div class="input-group">
                     <label>Matéria</label>
-                    <input type="text" id="materia-nome" name="nome" placeholder="Nome Completo da Matéria" required>
+                    <input type="text" autocomplete="off" id="materia-nome" name="nome" placeholder="Nome Completo da Matéria" required>
                 </div>
                 <div class="modal-actions">
                     <div class="input-group">
                         <label>Sigla</label>
-                        <input type="text" id="materia-sigla" name="sigla" placeholder="Abreviação" required>
+                        <input type="text" autocomplete="off" id="materia-sigla" name="sigla" placeholder="Abreviação" required>
                     </div>
                     <div class="input-group">
                         <label>Créditos</label>
-                        <input type="number" id="materia-creditos" name="creditos" placeholder="Peso da Matéria" required>
+                        <input type="number"  id="materia-creditos" name="creditos" placeholder="Peso da Matéria" required>
                     </div>
                 </div>
                 <div class="modal-actions">

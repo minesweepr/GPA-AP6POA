@@ -14,7 +14,7 @@
 <body>
 
 <main class="auth-container">
-    <form action="CadastroServlet" method="post">
+    <form action="CadastroServlet" autocomplete="off" method="post">
 
         <section class="auth-header">
             <h2>
@@ -29,7 +29,7 @@
 
         <section class="auth-body">
             <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nomeAluno" placeholder="Digite seu nome..." required>
+            <input type="text" id="nome" autocomplete="off" name="nomeAluno" placeholder="Digite seu nome..." required>
 
             <label for="escolaridade">Escolaridade</label>
             <select id="escolaridade" name="escolaridade" class="select-custom" required>
@@ -40,7 +40,7 @@
             </select>
 
             <label for="email">E-mail</label>
-            <input type="text" id="email" name="emailAluno" placeholder="seuemail@gmail.com" required>
+            <input type="text" id="email" autocomplete="off" name="emailAluno" placeholder="seuemail@gmail.com" required>
 
             <label for="senha">Senha</label>
             <input type="password" id="senha" name="senhaAluno" placeholder="senhaexemplo" required>
