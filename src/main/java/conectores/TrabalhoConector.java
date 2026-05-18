@@ -164,7 +164,7 @@ public class TrabalhoConector {
     public void atualizarIdGoogleCalendar(int idTrabalho, String eventId) {
 
         String sql =
-                "UPDATE trabalho " +
+                "UPDATE trabalhos " +
                         "SET id_google_calendar = ? " +
                         "WHERE id_trabalho = ?";
 
@@ -172,7 +172,12 @@ public class TrabalhoConector {
             stmt.setString(1, eventId);
             stmt.setInt(2, idTrabalho);
 
-            stmt.executeUpdate();
+            int linhas = stmt.executeUpdate();
+
+
+            System.out.println("LINHAS: " + linhas);
+            System.out.println("EVENT ID SQL: " + eventId);
+            System.out.println("TRABALHO SQL: " + idTrabalho);
 
         } catch (Exception e) {
             e.printStackTrace();

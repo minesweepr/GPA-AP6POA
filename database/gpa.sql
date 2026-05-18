@@ -542,6 +542,7 @@ CREATE TABLE IF NOT EXISTS `trabalhos` (
     `data_entrega_prevista` date DEFAULT NULL,
     `data_entrega_aluno` date DEFAULT NULL,
     `situacao` enum('atribuida','pendente','entregue') DEFAULT 'atribuida',
+    `id_google_calendar` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id_trabalho`),
     KEY `fk_trabalhos_am` (`id_aluno_materia`)
     ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

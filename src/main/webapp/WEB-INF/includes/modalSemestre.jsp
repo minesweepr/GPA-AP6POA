@@ -8,7 +8,7 @@
 
                 <div class="input-group">
                     <label>Semestre</label>
-                    <input type="text" id="semestre-nome" name="nome" placeholder="Ex: 2020.1, 2020.2..." required>
+                    <input type="text" autocomplete="off" id="semestre-nome" name="nome" placeholder="Ex: 2020.1, 2020.2..." required>
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-basico secundario" onclick="toggleModal('modal-semestre-container', false)">CANCELAR</button>

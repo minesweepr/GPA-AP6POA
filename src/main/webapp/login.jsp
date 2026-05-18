@@ -29,7 +29,7 @@
 
         <section class="auth-body">
             <label for="email">E-mail</label>
-            <input type="text" id="email" name="emailAluno" placeholder="seuemail@gmail.com" required>
+            <input type="text" autocomplete="off" id="email" name="emailAluno" placeholder="seuemail@gmail.com" required>
 
             <label for="senha">Senha</label>
             <input type="password" id="senha" name="senhaAluno" placeholder="senhaexemplo" required>

@@ -181,7 +181,8 @@
            <%
            for(Trabalho t : trabalhos){
 
-               if(t.getIdAlunoMateria() == am.getIdAlunoMateria()){
+               if(t.getIdAlunoMateria() == am.getIdAlunoMateria()
+                        && !t.getEstado().getNome().equals("entregue")){
 
            %>
                <div class="trabalho-item">
@@ -353,9 +354,10 @@
 
             <form id="form-atividade"
                   action="<%= request.getContextPath() %>/AtividadeServlet"
-                  method="POST">
+                  method="POST"
+                  autocomplete="off">
 
-                <input type="hidden" id="atividade-id" name="id">
+                <input type="hidden" id="atividade-id" name="id" >
 
                 <input type="hidden" name="semestreId" value="<%= semestreAtivoId %>">
 
@@ -368,7 +370,7 @@
                     </label>
 
                     <select id="atividade-materia"
-                            name="idAlunoMateria"
+                            name="idAlunoMateria" autocomplete="off"
                             required>
 
                         <option value="">
@@ -404,7 +406,7 @@
                     <input type="text"
                            id="atividade-nome"
                            name="titulo"
-                           placeholder="Nome da atividade"
+                           placeholder="Nome da atividade" autocomplete="off"
                            required>
                 </section>
 
@@ -418,7 +420,7 @@
 
                         <section class="prazo-inputs">
                             <span>até</span>
-                            <input type="date" id="atividade-data" name="dataPrazo" required>
+                            <input type="date" id="atividade-data" name="dataPrazo"  required>
 
                         </section>
                     </section>
