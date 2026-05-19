@@ -16,6 +16,7 @@
     // instanciando os conectores (DAOs) da pasta 'conectores'
     MateriaConector materiaDao=new MateriaConector();
     SemestreConector semestreDao=new SemestreConector();
+    AlunoConector alunoDao=new AlunoConector();
 
     // listagem e selecao de semestre
     List<Semestre> listaSemestres=semestreDao.listarPorAluno(idLogado);
@@ -28,7 +29,7 @@
     else if(!listaSemestres.isEmpty()) semestreAtivoId=listaSemestres.get(0).getIdSemestre();
 
     //info geral para os cards de desempenho
-    double crAluno=alunoSessao.getCr();
+    double crAluno=alunoDao.crDinamico(idLogado);
 
     double desempenhoAlunoSemestre=0.0;
     for(Semestre s : listaSemestres){

@@ -52,4 +52,17 @@ public class AlunoConector {
         }
         return null;
     }
+
+    public double crDinamico(int idAluno){
+        String sql="SELECT CR FROM Aluno WHERE id_aluno=?";
+        try (Connection con=ConexaoBD.conectar();
+             PreparedStatement stmt=con.prepareStatement(sql)){
+
+            stmt.setInt(1, idAluno);
+            ResultSet rs=stmt.executeQuery();
+
+            if(rs.next()) return rs.getDouble("CR");
+        } catch (SQLException e){System.err.println("Erro na busca do CR: " + e.getMessage());}
+        return 0.0;
+    }
 }
