@@ -71,9 +71,9 @@ CREATE TABLE IF NOT EXISTS `aluno` (
 --
 
 INSERT INTO `aluno` (`id_aluno`, `nome`, `email`, `senha`, `escolaridade`, `CR`) VALUES
-                                                                                     (1, 'João Pedro', 'joao@gmail.com', 'senha123', 'ensino superior', NULL),
-                                                                                     (3, 'Vera Antônia', 'verant@gmail.com', 'senha123', 'ensino médio', NULL),
-                                                                                     (4, 'Vinicius', 'vininunes@gmail.com', 'senha123', 'ensino superior', 8.65);
+                                                                                     (1, 'João Pedro', 'joao@gmail.com', '$2a$12$6lFTIaw0OQYlfKLkmkqWOOzm3r2DThASKFn0nwRuP0zPHRm39i3/O', 'ensino superior', NULL),
+                                                                                     (3, 'Vera Antônia', '$2a$12$6lFTIaw0OQYlfKLkmkqWOOzm3r2DThASKFn0nwRuP0zPHRm39i3/O', 'senha123', 'ensino médio', NULL),
+                                                                                     (4, 'Vinicius', '$2a$12$6lFTIaw0OQYlfKLkmkqWOOzm3r2DThASKFn0nwRuP0zPHRm39i3/O', 'senha123', 'ensino superior', 8.65);
 
 -- --------------------------------------------------------
 
